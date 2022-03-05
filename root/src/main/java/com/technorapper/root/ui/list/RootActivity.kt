@@ -11,8 +11,9 @@ import com.google.firebase.ktx.Firebase
 
 import com.technorapper.root.R
 import com.technorapper.root.base.BaseClass
+import com.technorapper.root.data.MyPreference
 import com.technorapper.root.databinding.RootActivityBinding
-
+import javax.inject.Inject
 
 
 class RootActivity : BaseClass() {
@@ -22,20 +23,17 @@ class RootActivity : BaseClass() {
     lateinit var binding: RootActivityBinding
 
 
+
     override fun setBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.root_activity)
-        binding.bottomNavigation.setupWithNavController(Navigation.findNavController(this, R.id.fragmentContainerView))
-        val db = Firebase.firestore
-        db.collection("users")
-            .whereEqualTo("userID", 1)
-            .addSnapshotListener { snapshots, e ->
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e)
-                    return@addSnapshotListener
-                }
+        binding.bottomNavigation.setupWithNavController(
+            Navigation.findNavController(
+                this,
+                R.id.fragmentContainerView
+            )
+        )
+        viewModel.getUser()
 
-                Log.d(TAG, "Current users : ${snapshots!!.documents[0].data?.get("userName")}")
-            }
     }
 
 

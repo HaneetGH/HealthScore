@@ -101,7 +101,7 @@ class RegisterFragment : BaseFragment() {
                                                 "userDOB" to "Ada",
                                                 "userID" to it.result.user?.uid,
                                                 "userLastLocation" to 1815,
-                                                "userName" to "1,1",
+                                                "userName" to "Test",
                                                 "userPhone" to 9041422652
                                             )
 
@@ -117,6 +117,7 @@ class RegisterFragment : BaseFragment() {
                                                 .addOnFailureListener { e ->
                                                     Log.w(TAG, "Error adding document", e)
                                                 }
+                                            viewModel.saveInPref(it.result.user?.uid,activity!!)
                                             startActivity(
                                                 Intent(
                                                     activity,
