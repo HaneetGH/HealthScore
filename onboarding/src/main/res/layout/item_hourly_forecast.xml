@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.technorapper.onboarding.data.data_model.weather.HourlyItem" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:background="@android:color/transparent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hour="@{model.dt}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+
+            />
+
+        <ImageView
+            android:id="@+id/ivCloud"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:src="@drawable/cloud" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:temp="@{model.temp}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+
+            />
+
+
+    </LinearLayout>
+</layout>

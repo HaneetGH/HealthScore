@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "959287164059",
+    "project_id": "healthscore-4fcdf",
+    "storage_bucket": "healthscore-4fcdf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:959287164059:android:99fbe625426c70e8559a3e",
+        "android_client_info": {
+          "package_name": "com.technorapper.onboarding"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "959287164059-giv2dbrarf7of78efmuc48esihb50qkg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf10Osj_yKfU-Nipf1gwsrC7H2ElU7WJ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "959287164059-giv2dbrarf7of78efmuc48esihb50qkg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
