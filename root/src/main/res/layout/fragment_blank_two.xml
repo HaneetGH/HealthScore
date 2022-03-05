@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="handler"
+            type="com.technorapper.root.ui.list.fragment.SettingFragment.ClickEvents" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/help"
+            android:onClick="@{()->handler.help()}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:text="Help Section"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_18ssp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Imperial"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18ssp" />
+
+            <Switch
+                android:id="@+id/swich"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+
+                android:textSize="@dimen/_18ssp" />
+        </RelativeLayout>
+
+        <TextView
+            android:onClick="@{()->handler.reset()}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:text="Reset"
+            android:textColor="@color/quantum_googred"
+            android:textSize="@dimen/_18ssp" />
+    </LinearLayout>
+</layout>

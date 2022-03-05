@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="counter"
+            type="Double" />
+
+        <variable
+            name="handler"
+            type="com.technorapper.root.ui.list.fragment.ListFragment.ClickEvents" />
+
+        <variable
+            name="isListHere"
+            type="boolean" />
+
+        <variable
+            name="progressCircular"
+            type="boolean" />
+
+        <variable
+            name="adapter"
+            type="com.technorapper.root.ui.list.adapter.ListAdapter" />
+
+
+        <variable
+            name="showErrorMessage"
+            type="boolean" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/slotLit"
+            adapter="@{adapter}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            android:visibility="@{safeUnbox(isListHere)?View.VISIBLE:View.GONE,default=gone}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/list_items" />
+
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:layout_marginBottom="@dimen/_80sdp"
+            android:contextClickable="true"
+            android:id="@+id/fab"
+            android:onClick="@{()->handler.openMap()}"
+            android:src="@android:drawable/ic_menu_add" />
+
+
+    </FrameLayout>
+</layout>

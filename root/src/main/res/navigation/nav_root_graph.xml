@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/blankFragmentOne">
+
+    <fragment
+        android:id="@+id/blankFragmentOne"
+        android:name="com.technorapper.root.ui.list.fragment.ListFragment"
+        android:label="fragment_blank_one"
+        tools:layout="@layout/fragment_root">
+
+        <action
+            android:id="@+id/action_blankFragmentOne_pop"
+            app:popUpTo="@id/blankFragmentOne"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.technorapper.root.ui.list.fragment.SettingFragment"
+        android:label="SettingFragment"
+        tools:layout="@layout/fragment_blank_two">
+        <action
+            android:id="@+id/action_blankFragmentTwo_pop"
+            app:popUpTo="@id/settingFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.technorapper.root.ui.list.fragment.HelpFragment"
+        android:label="HelpFragment"
+        tools:layout="@layout/fragment_blank_three">
+        <action
+            android:id="@+id/action_helpFragment_pop"
+            app:popUpTo="@id/helpFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+
+</navigation>
