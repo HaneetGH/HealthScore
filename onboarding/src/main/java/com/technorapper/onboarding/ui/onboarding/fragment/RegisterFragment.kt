@@ -3,6 +3,7 @@ package com.technorapper.onboarding.ui.onboarding.fragment
 
 import com.technorapper.root.ui.list.RootActivity
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,8 @@ import androidx.lifecycle.Observer
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.technorapper.onboarding.R
 import com.technorapper.onboarding.base.BaseFragment
 import com.technorapper.onboarding.constant.Task
@@ -87,14 +90,41 @@ class RegisterFragment : BaseFragment() {
                         when (it.task) {
                             Task.ONBOARD -> {
                                 try {
-                                    val value = it.data as com.google.android.gms.tasks.Task<AuthResult>
+                                    val value =
+                                        it.data as com.google.android.gms.tasks.Task<AuthResult>
                                     value.addOnCompleteListener {
-                                        if (it.isSuccessful)
-                                        {
-                                            startActivity(Intent(activity, RootActivity::class.java))
-                                        }
-                                        else
-                                            binding.isOTPGenerated=false
+                                        if (it.isSuccessful) {
+                                            val db = Firebase.firestore
+
+                                            // Create a new user with a first and last name
+                                            val user = hashMapOf(
+                                                "userDOB" to "Ada",
+                                                "userID" to it.result.user?.uid,
+                                                "userLastLocation" to 1815,
+                                                "userName" to "1,1",
+                                                "userPhone" to 9041422652
+                                            )
+
+// Add a new document with a generated ID
+                                            db.collection("users")
+                                                .add(user)
+                                                .addOnSuccessListener { documentReference ->
+                                                    Log.d(
+                                                        TAG,
+                                                        "DocumentSnapshot added with ID: ${documentReference.id}"
+                                                    )
+                                                }
+                                                .addOnFailureListener { e ->
+                                                    Log.w(TAG, "Error adding document", e)
+                                                }
+                                            startActivity(
+                                                Intent(
+                                                    activity,
+                                                    RootActivity::class.java
+                                                )
+                                            )
+                                        } else
+                                            binding.isOTPGenerated = false
 
                                     }
 
