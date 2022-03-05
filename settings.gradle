@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "HealthScore"
 include ':app'
 include ':onboarding'
+include ':root'

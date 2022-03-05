@@ -1,4 +1,4 @@
-package com.whide.partner.data.repository.utils
+package com.technorapper.onboarding.utils
 
 import androidx.room.TypeConverter
 import java.util.*

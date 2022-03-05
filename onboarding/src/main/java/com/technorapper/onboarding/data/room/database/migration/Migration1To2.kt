@@ -1,4 +1,4 @@
-package com.whide.partner.networking.tunnel.database.migration
+package com.technorapper.onboarding.data.room.database.migration
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase

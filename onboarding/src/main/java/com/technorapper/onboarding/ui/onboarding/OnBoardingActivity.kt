@@ -2,23 +2,22 @@ package com.technorapper.onboarding.ui.onboarding
 
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.Navigation
-import androidx.navigation.ui.setupWithNavController
 
 import com.technorapper.onboarding.R
 import com.technorapper.onboarding.base.BaseClass
-import com.technorapper.onboarding.databinding.ListActivityBinding
+import com.technorapper.onboarding.databinding.OnboardActivityBinding
+
 
 class OnBoardingActivity : BaseClass() {
 
 
     private val viewModel by viewModels<OnBoardingViewModel>()
-    lateinit var binding: ListActivityBinding
+    lateinit var binding: OnboardActivityBinding
 
 
     override fun setBinding() {
         binding =
-            DataBindingUtil.setContentView(this, R.layout.list_activity)
+            DataBindingUtil.setContentView(this, R.layout.onboard_activity)
         //binding.bottomNavigation.setupWithNavController(Navigation.findNavController(this, R.id.fragmentContainerView))
 
     }

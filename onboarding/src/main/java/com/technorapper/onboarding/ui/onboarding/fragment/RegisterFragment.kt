@@ -1,6 +1,7 @@
 package com.technorapper.onboarding.ui.onboarding.fragment
 
 
+import com.technorapper.root.ui.list.RootActivity
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -18,7 +18,6 @@ import com.google.firebase.auth.*
 import com.technorapper.onboarding.R
 import com.technorapper.onboarding.base.BaseFragment
 import com.technorapper.onboarding.constant.Task
-import com.technorapper.onboarding.data.data_model.LocationTable
 import com.technorapper.onboarding.databinding.ActivityRegisterBinding
 import com.technorapper.onboarding.domain.DataState
 import com.technorapper.onboarding.ui.onboarding.MainListStateEvent
@@ -86,12 +85,19 @@ class RegisterFragment : BaseFragment() {
 
                     if (it?.data != null) {
                         when (it.task) {
-                            Task.FETCH -> {
+                            Task.ONBOARD -> {
                                 try {
-                                    val value = it.data as List<LocationTable>
-                                    if (value.isNotEmpty())
-                                    else
-                                        binding.isListHere = false
+                                    val value = it.data as com.google.android.gms.tasks.Task<AuthResult>
+                                    value.addOnCompleteListener {
+                                        if (it.isSuccessful)
+                                        {
+                                            startActivity(Intent(activity, RootActivity::class.java))
+                                        }
+                                        else
+                                            binding.isOTPGenerated=false
+
+                                    }
+
                                     Log.d("Api Response", value.toString())
                                 } catch (e: Exception) {
 

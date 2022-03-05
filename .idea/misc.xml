@@ -7,6 +7,11 @@
         <entry key="onboarding/src/main/res/layout/activity_register.xml" value="0.1671875" />
         <entry key="onboarding/src/main/res/layout/list_activity.xml" value="0.1140625" />
         <entry key="onboarding/src/main/res/layout/list_items.xml" value="0.1671875" />
+        <entry key="onboarding/src/main/res/layout/onboard_activity.xml" value="0.1421875" />
+        <entry key="root/src/main/res/layout/activity_date_login.xml" value="0.21666666666666667" />
+        <entry key="root/src/main/res/layout/activity_main.xml" value="0.1296875" />
+        <entry key="root/src/main/res/layout/list_activity.xml" value="0.1421875" />
+        <entry key="root/src/main/res/layout/root_activity.xml" value="0.1296875" />
       </map>
     </option>
   </component>

@@ -1,12 +1,12 @@
-package com.technorapper.onboarding.application
+package com.technorapper.root.app
+
+
 
 import android.app.Application
-
-
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class MyApp : Application() {
+open class MyRootApp : Application() {
 
     override fun onCreate() {
         super.onCreate()

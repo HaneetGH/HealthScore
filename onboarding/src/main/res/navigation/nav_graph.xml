@@ -9,7 +9,7 @@
         android:id="@+id/blankFragmentOne"
         android:name="com.technorapper.onboarding.ui.onboarding.fragment.LoginFragment"
         android:label="fragment_blank_one"
-        tools:layout="@layout/activity_date_login">
+        tools:layout="@layout/fragment_root">
 
         <action
             android:id="@+id/action_blankFragmentOne_pop"
