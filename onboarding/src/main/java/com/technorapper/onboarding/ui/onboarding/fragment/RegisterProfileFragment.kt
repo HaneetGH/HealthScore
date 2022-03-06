@@ -1,9 +1,7 @@
 package com.technorapper.onboarding.ui.onboarding.fragment
 
 
-import com.technorapper.root.ui.list.RootActivity
-import android.content.ContentValues
-import android.content.ContentValues.TAG
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,22 +9,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.google.firebase.FirebaseException
-import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.DocumentReference
 import com.technorapper.onboarding.R
 import com.technorapper.onboarding.base.BaseFragment
 import com.technorapper.onboarding.constant.Task
-import com.technorapper.onboarding.databinding.ActivityRegisterBinding
 import com.technorapper.onboarding.databinding.FragmentProfileRegisterBinding
 import com.technorapper.onboarding.domain.DataState
 import com.technorapper.onboarding.ui.onboarding.MainListStateEvent
 import com.technorapper.onboarding.ui.onboarding.OnBoardingViewModel
-import java.util.concurrent.TimeUnit
+import com.technorapper.root.ui.list.RootActivity
+import java.util.*
 
 
 class RegisterProfileFragment : BaseFragment() {
@@ -39,7 +35,6 @@ class RegisterProfileFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
 
     }
@@ -65,18 +60,23 @@ class RegisterProfileFragment : BaseFragment() {
 
 
     private fun setEvents() {
-
+        binding.etdob.setOnClickListener {
+            viewModel.fetchTimeAndDate(requireActivity()).observe(requireActivity(), Observer {
+                binding.etdob.text = it
+            })
+        }
     }
 
 
     override fun attachViewModel() {
         viewModel.setStateEvent(MainListStateEvent.FetchBookmark)
+        viewModel.pushContext(requireActivity())
         viewModel.uiState.observe(this, Observer { parse(it) })
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel?.setStateEvent(MainListStateEvent.FetchBookmark)
+
     }
 
     private fun parse(it: DataState?) {
@@ -88,19 +88,27 @@ class RegisterProfileFragment : BaseFragment() {
 
                     if (it?.data != null) {
                         when (it.task) {
-                            Task.ONBOARD -> {
+                            Task.UPDATE_ONBOARD -> {
                                 try {
                                     val value =
-                                        it.data as com.google.android.gms.tasks.Task<AuthResult>
+                                        it.data as com.google.android.gms.tasks.Task<DocumentReference>
                                     value.addOnCompleteListener {
+                                        if (it.isSuccessful) {
+                                            startActivity(
+                                                Intent(
+                                                    activity,
+                                                    RootActivity::class.java
+                                                )
+                                            )
+                                            requireActivity().finishAffinity()
+                                        }
                                     }
+                                    value.addOnFailureListener { }
                                 } catch (e: Exception) {
 
                                 }
                             }
-                            Task.DELETE -> {
 
-                            }
 
                         }
 
@@ -123,17 +131,40 @@ class RegisterProfileFragment : BaseFragment() {
     }
 
 
-
-
-
-
     inner class ClickEvents() {
 
 
+        fun saveData(userDob: String, userName: String, userEmail: String, userProfession: String) {
+            if (userDob.isEmpty()) {
+                binding.errorMessageDOB.text = "Please fill this"
+                return
+            }
+            if (userName.isEmpty()) {
+                binding.errorMessageName.text = "Please fill this"
+                return
+            }
+            if (userEmail.isEmpty()) {
+                binding.errorMessageEmail.text = "Please fill this"
+                return
+            }
+            if (userProfession.isEmpty()) {
+                binding.errorMessageOtpProfessional.text = "Please fill this"
+                return
+            }
 
-        fun saveData() {
+
+            viewModel.setStateEvent(
+                MainListStateEvent.UpdateUserInfo(
+                    userDob,
+                    "0,0",
+                    userName,
+                    userEmail,
+                    userProfession
+                )
+            )
 
         }
+
     }
 
 

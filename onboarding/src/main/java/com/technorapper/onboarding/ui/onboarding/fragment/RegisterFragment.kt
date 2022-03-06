@@ -72,12 +72,12 @@ class RegisterFragment : BaseFragment() {
 
     override fun attachViewModel() {
         viewModel.setStateEvent(MainListStateEvent.FetchBookmark)
+        viewModel.pushContext(requireActivity())
         viewModel.uiState.observe(this, Observer { parse(it) })
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel?.setStateEvent(MainListStateEvent.FetchBookmark)
     }
 
     private fun parse(it: DataState?) {
@@ -95,37 +95,13 @@ class RegisterFragment : BaseFragment() {
                                         it.data as com.google.android.gms.tasks.Task<AuthResult>
                                     value.addOnCompleteListener {
                                         if (it.isSuccessful) {
-                                            val db = Firebase.firestore
+
 
                                             // Create a new user with a first and last name
-                                            val user = hashMapOf(
-                                                "userDOB" to "Ada",
-                                                "userID" to it.result.user?.uid,
-                                                "userLastLocation" to 1815,
-                                                "userName" to "Test",
-                                                "userPhone" to 9041422652
-                                            )
 
-// Add a new document with a generated ID
-                                            db.collection("users")
-                                                .add(user)
-                                                .addOnSuccessListener { documentReference ->
-                                                    Log.d(
-                                                        TAG,
-                                                        "DocumentSnapshot added with ID: ${documentReference.id}"
-                                                    )
-                                                }
-                                                .addOnFailureListener { e ->
-                                                    Log.w(TAG, "Error adding document", e)
-                                                }
                                             viewModel.saveInPref(it.result.user?.uid,requireActivity())
                                             findNavController().navigate(R.id.action_registerFragment_to_registerProfileFragment)
-                                            /*startActivity(
-                                                Intent(
-                                                    activity,
-                                                    RootActivity::class.java
-                                                )
-                                            )*/
+                                            /**/
                                         } else
                                             binding.isOTPGenerated = false
 

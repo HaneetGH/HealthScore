@@ -24,6 +24,7 @@ class OnBoardingActivity : BaseClass() {
 
 
     override fun attachViewModel() {
+        viewModel.pushContext(this@OnBoardingActivity)
         //viewModel.setStateEvent(MainListStateEvent.FetchBookmark)
         //    viewModel.uiState.observe(this, Observer { parse(it) })
     }

@@ -1,15 +1,18 @@
 package com.technorapper.onboarding.ui.onboarding
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.databinding.ObservableBoolean
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
+import com.technorapper.onboarding.R
 import com.technorapper.onboarding.data.data_model.LocationTable
 import com.technorapper.onboarding.data.repository.ListActivityRepository
 import com.technorapper.onboarding.data.usecases.FirebaseUseCases
@@ -18,16 +21,18 @@ import com.technorapper.root.data.MyPreference
 
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 
 class OnBoardingViewModel : ViewModel() {
-    private val useCases: FirebaseUseCases = FirebaseUseCases()
+
     var reset = ObservableBoolean()
     private val _uiState: MutableLiveData<DataState> = MutableLiveData()
     val uiState: MutableLiveData<DataState> get() = _uiState
-    @Inject
     lateinit var myPreference: MyPreference
+
+    lateinit var useCases: FirebaseUseCases
     fun setStateEvent(mainStateEvent: MainListStateEvent) {
         viewModelScope.launch {
             when (mainStateEvent) {
@@ -41,30 +46,77 @@ class OnBoardingViewModel : ViewModel() {
                         }
 
                 }
+                is MainListStateEvent.UpdateUserInfo -> {
+                    useCases.updateUserInfo(
+                        mainStateEvent.userDOB,
+                        mainStateEvent.userLastLocation,
+                        mainStateEvent.userName,
+                        mainStateEvent.email,
+                        mainStateEvent.professiona
+                    )
+                        .collect {
+                            Log.d("return", it.toString())
+                            uiState.value = it
+                        }
+
+                }
             }
 
         }
     }
 
-    fun saveInPref(uid: String?,activity: Activity) {
+    fun saveInPref(uid: String?, activity: Activity) {
         if (uid != null) {
-            myPreference= MyPreference(activity)
+            myPreference = MyPreference(activity)
             myPreference.setStoredUnit(uid)
         }
 
     }
 
+    fun pushContext(requireActivity: Activity) {
+        myPreference = MyPreference(requireActivity)
+        useCases = FirebaseUseCases(myPreference, ListActivityRepository());
+    }
 
+    fun fetchTimeAndDate(activity: FragmentActivity?): MutableLiveData<String> {
+        var timeLiveData: MutableLiveData<String> = MutableLiveData();
+        val mYear: Int
+        val mMonth: Int
+        val mDay: Int
+        val c = Calendar.getInstance()
+        mYear = c[Calendar.YEAR]
+        mMonth = c[Calendar.MONTH]
+        mDay = c[Calendar.DAY_OF_MONTH]
+        val datePickerDialog = DatePickerDialog(
+            activity!!,
+            R.style.DialogTheme,
+            { _, year, month, day ->
+                timeLiveData.value = "$day-$month-$year"
+
+            },
+            mYear,
+            mMonth,
+            mDay
+        )
+        datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
+        datePickerDialog.show()
+
+        return timeLiveData;
+    }
 }
 
 
 sealed class MainListStateEvent {
 
     object FetchBookmark : MainListStateEvent()
-    data class DeleteItem(val locationTable: LocationTable) : MainListStateEvent()
-    object None : MainListStateEvent()
-    object Reset : MainListStateEvent()
-    data class UpdateUnit(val which: Boolean) : MainListStateEvent()
+    data class UpdateUserInfo(
+        val userDOB: String,
+        val userLastLocation: String,
+        val userName: String,
+        val email: String,
+        val professiona: String
+    ) : MainListStateEvent()
+
     data class RegisterUser(val otp: String, val verID: String) : MainListStateEvent()
 }
 
