@@ -1,6 +1,10 @@
 package com.technorapper.onboarding.ui.onboarding.fragment
 
 
+import com.technorapper.root.ui.list.RootActivity
+import android.content.ContentValues
+import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,27 +13,33 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
-
-
+import com.google.firebase.FirebaseException
+import com.google.firebase.FirebaseTooManyRequestsException
+import com.google.firebase.auth.*
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.technorapper.onboarding.R
 import com.technorapper.onboarding.base.BaseFragment
 import com.technorapper.onboarding.constant.Task
-import com.technorapper.onboarding.data.data_model.LocationTable
-import com.technorapper.onboarding.databinding.ActivityDateLoginBinding
+import com.technorapper.onboarding.databinding.ActivityRegisterBinding
+import com.technorapper.onboarding.databinding.FragmentProfileRegisterBinding
 import com.technorapper.onboarding.domain.DataState
 import com.technorapper.onboarding.ui.onboarding.MainListStateEvent
 import com.technorapper.onboarding.ui.onboarding.OnBoardingViewModel
+import java.util.concurrent.TimeUnit
 
-class LoginFragment : BaseFragment() {
+
+class RegisterProfileFragment : BaseFragment() {
 
 
+    private var mAuth: FirebaseAuth? = null;
     private val viewModel by viewModels<OnBoardingViewModel>()
-    lateinit var binding: ActivityDateLoginBinding
+    lateinit var binding: FragmentProfileRegisterBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
 
     }
@@ -42,11 +52,10 @@ class LoginFragment : BaseFragment() {
     ): View? {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.activity_date_login,
+            R.layout.fragment_profile_register,
             container,
             false
         )
-        binding.counter = 60.00
 
         binding.handler = ClickEvents()
         setEvents();
@@ -56,10 +65,7 @@ class LoginFragment : BaseFragment() {
 
 
     private fun setEvents() {
-        binding.registerBtn.setOnClickListener {
-         //   it.findNavController().navigate(R.id.action_blankFragmentOne_to_registerFragment)
 
-        }
     }
 
 
@@ -82,13 +88,12 @@ class LoginFragment : BaseFragment() {
 
                     if (it?.data != null) {
                         when (it.task) {
-                            Task.FETCH -> {
+                            Task.ONBOARD -> {
                                 try {
-                                    val value = it.data as List<LocationTable>
-                                    if (value.isNotEmpty())
-                                    else
-                                        binding.isListHere = false
-                                    Log.d("Api Response", value.toString())
+                                    val value =
+                                        it.data as com.google.android.gms.tasks.Task<AuthResult>
+                                    value.addOnCompleteListener {
+                                    }
                                 } catch (e: Exception) {
 
                                 }
@@ -118,9 +123,17 @@ class LoginFragment : BaseFragment() {
     }
 
 
+
+
+
+
     inner class ClickEvents() {
 
 
+
+        fun saveData() {
+
+        }
     }
 
 

@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
@@ -117,13 +118,14 @@ class RegisterFragment : BaseFragment() {
                                                 .addOnFailureListener { e ->
                                                     Log.w(TAG, "Error adding document", e)
                                                 }
-                                            viewModel.saveInPref(it.result.user?.uid,activity!!)
-                                            startActivity(
+                                            viewModel.saveInPref(it.result.user?.uid,requireActivity())
+                                            findNavController().navigate(R.id.action_registerFragment_to_registerProfileFragment)
+                                            /*startActivity(
                                                 Intent(
                                                     activity,
                                                     RootActivity::class.java
                                                 )
-                                            )
+                                            )*/
                                         } else
                                             binding.isOTPGenerated = false
 
