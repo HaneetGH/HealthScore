@@ -2,6 +2,7 @@ package com.technorapper.onboarding.ui.onboarding
 
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 
 import com.technorapper.onboarding.R
 import com.technorapper.onboarding.base.BaseClass
@@ -22,7 +23,10 @@ class OnBoardingActivity : BaseClass() {
 
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
 
+    }
     override fun attachViewModel() {
         viewModel.pushContext(this@OnBoardingActivity)
         //viewModel.setStateEvent(MainListStateEvent.FetchBookmark)
