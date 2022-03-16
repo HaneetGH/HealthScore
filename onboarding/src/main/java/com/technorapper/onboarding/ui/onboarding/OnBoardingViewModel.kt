@@ -2,19 +2,14 @@ package com.technorapper.onboarding.ui.onboarding
 
 import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.FirebaseException
-import com.google.firebase.FirebaseTooManyRequestsException
-import com.google.firebase.auth.*
 import com.technorapper.onboarding.R
-import com.technorapper.onboarding.data.data_model.LocationTable
-import com.technorapper.onboarding.data.repository.ListActivityRepository
+import com.technorapper.onboarding.data.repository.onBoardingRepository
 import com.technorapper.onboarding.data.usecases.FirebaseUseCases
 import com.technorapper.onboarding.domain.DataState
 import com.technorapper.root.data.MyPreference
@@ -22,7 +17,6 @@ import com.technorapper.root.data.MyPreference
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
-import javax.inject.Inject
 
 
 class OnBoardingViewModel : ViewModel() {
@@ -75,7 +69,7 @@ class OnBoardingViewModel : ViewModel() {
 
     fun pushContext(requireActivity: Activity) {
         myPreference = MyPreference(requireActivity)
-        useCases = FirebaseUseCases(myPreference, ListActivityRepository());
+        useCases = FirebaseUseCases(myPreference, onBoardingRepository());
     }
 
     fun fetchTimeAndDate(activity: FragmentActivity?): MutableLiveData<String> {

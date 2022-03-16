@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 
-class ListActivityRepository  : BaseRepository() {
+class onBoardingRepository  : BaseRepository() {
 
 lateinit var myPreference: MyPreference
     suspend fun registerUser(

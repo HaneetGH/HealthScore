@@ -1,6 +1,6 @@
 package com.technorapper.onboarding.data.usecases
 
-import com.technorapper.onboarding.data.repository.ListActivityRepository
+import com.technorapper.onboarding.data.repository.onBoardingRepository
 import com.technorapper.onboarding.domain.DataState
 import com.technorapper.root.data.MyPreference
 
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 class FirebaseUseCases constructor(
     private val preference: MyPreference,
-    private val repository: ListActivityRepository
+    private val repository: onBoardingRepository
 
 ) {
 
