@@ -67,6 +67,8 @@ lateinit var myPreference: MyPreference
                 val user = hashMapOf(
                     "userDOB" to userDOB,
                     "userID" to myPreference.getStoredUnit(),
+                    "idToken" to myPreference.getStoredfbToken(),
+                    "uid" to myPreference.getStoredUnit(),
                     "userLastLocation" to userLastLocation,
                     "userName" to userName,
                     "email" to email,

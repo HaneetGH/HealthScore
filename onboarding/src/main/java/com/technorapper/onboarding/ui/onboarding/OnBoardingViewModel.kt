@@ -67,6 +67,14 @@ class OnBoardingViewModel : ViewModel() {
 
     }
 
+    fun saveTokenId(token: String?, activity: Activity) {
+        if (token != null) {
+            myPreference = MyPreference(activity)
+            myPreference.setStoredfbToken(token)
+        }
+
+    }
+
     fun pushContext(requireActivity: Activity) {
         myPreference = MyPreference(requireActivity)
         useCases = FirebaseUseCases(myPreference, onBoardingRepository());
