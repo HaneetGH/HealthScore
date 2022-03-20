@@ -15,6 +15,7 @@ class FirebaseUseCases constructor(
 
     init {
         repository.pushPrefence(preference)
+
     }
 
     suspend fun registerUserWithPhoneNumber(verID: String, otp: String): Flow<DataState> {

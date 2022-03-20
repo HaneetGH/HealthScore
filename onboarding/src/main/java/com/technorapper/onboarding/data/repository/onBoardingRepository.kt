@@ -3,12 +3,14 @@ package com.technorapper.onboarding.data.repository
 
 import android.content.ContentValues
 import android.content.Context
+import android.net.Network
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.technorapper.onboarding.constant.Task
+import com.technorapper.onboarding.data.NetworkLayer
 import com.technorapper.onboarding.domain.DataState
 import com.technorapper.root.data.MyPreference
 import com.technorapper.root.data.room.database.dao.LocationDao
@@ -22,9 +24,9 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 
-class onBoardingRepository  : BaseRepository() {
+class onBoardingRepository : BaseRepository() {
 
-lateinit var myPreference: MyPreference
+    lateinit var myPreference: MyPreference
     suspend fun registerUser(
         storedVerificationId: String, code: String
     ): Flow<DataState> {
@@ -62,7 +64,7 @@ lateinit var myPreference: MyPreference
         return flow {
             emit(DataState.Loading(Task.ONBOARD))
             // var response: VehicleCategoriesList = null
-            val db = Firebase.firestore
+
             try {
                 val user = hashMapOf(
                     "userDOB" to userDOB,
@@ -76,8 +78,17 @@ lateinit var myPreference: MyPreference
                 )
 
 // Add a new document with a generated ID
-              val result =  db.collection("users").add(user)
 
+                val result = NetworkLayer.create().addusers(
+                    email,
+                    profession,
+                    userDOB,
+                    myPreference.getStoredUnit(),
+                    userLastLocation,
+                    userName,
+                    myPreference.getStoredfbToken(),
+                    myPreference.getStoredUnit()
+                )
                 emit(DataState.Success(result, Task.UPDATE_ONBOARD))
             } catch (e: Exception) {
                 Log.e("fetch erroe", e.message.toString());
@@ -95,7 +106,7 @@ lateinit var myPreference: MyPreference
     }
 
     fun pushPrefence(myPreference: MyPreference) {
-        this.myPreference =myPreference
+        this.myPreference = myPreference
     }
 
 

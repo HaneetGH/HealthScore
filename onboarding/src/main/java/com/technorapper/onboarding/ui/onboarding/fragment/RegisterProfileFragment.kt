@@ -22,6 +22,7 @@ import com.technorapper.onboarding.domain.DataState
 import com.technorapper.onboarding.ui.onboarding.MainListStateEvent
 import com.technorapper.onboarding.ui.onboarding.OnBoardingViewModel
 import com.technorapper.root.ui.list.RootActivity
+import org.json.JSONObject
 import java.util.*
 
 
@@ -91,8 +92,9 @@ class RegisterProfileFragment : BaseFragment() {
                             Task.UPDATE_ONBOARD -> {
                                 try {
                                     val value =
-                                        it.data as com.google.android.gms.tasks.Task<DocumentReference>
-                                    value.addOnCompleteListener {
+                                        it.data as JSONObject
+                                    Log.d("Result", value.toString())
+                                    /*value.addOnCompleteListener {
                                         if (it.isSuccessful) {
                                             startActivity(
                                                 Intent(
@@ -103,7 +105,7 @@ class RegisterProfileFragment : BaseFragment() {
                                             requireActivity().finishAffinity()
                                         }
                                     }
-                                    value.addOnFailureListener { }
+                                    value.addOnFailureListener { }*/
                                 } catch (e: Exception) {
 
                                 }
