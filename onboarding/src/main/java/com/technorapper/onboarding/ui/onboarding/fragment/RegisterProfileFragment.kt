@@ -17,6 +17,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.technorapper.onboarding.R
 import com.technorapper.onboarding.base.BaseFragment
 import com.technorapper.onboarding.constant.Task
+import com.technorapper.onboarding.data.data_model.BasicResult
 import com.technorapper.onboarding.databinding.FragmentProfileRegisterBinding
 import com.technorapper.onboarding.domain.DataState
 import com.technorapper.onboarding.ui.onboarding.MainListStateEvent
@@ -92,17 +93,20 @@ class RegisterProfileFragment : BaseFragment() {
                             Task.UPDATE_ONBOARD -> {
                                 try {
                                     val value =
-                                        it.data as JSONObject
+                                        it.data as BasicResult
                                     Log.d("Result", value.toString())
+                                    if(value.result.status_code==1){
+                                        startActivity(
+                                            Intent(
+                                                activity,
+                                                RootActivity::class.java
+                                            )
+                                        )
+                                        requireActivity().finishAffinity()
+                                    }
                                     /*value.addOnCompleteListener {
                                         if (it.isSuccessful) {
-                                            startActivity(
-                                                Intent(
-                                                    activity,
-                                                    RootActivity::class.java
-                                                )
-                                            )
-                                            requireActivity().finishAffinity()
+
                                         }
                                     }
                                     value.addOnFailureListener { }*/

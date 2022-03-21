@@ -1,6 +1,7 @@
 package com.technorapper.onboarding.data
 
 
+import com.technorapper.onboarding.data.data_model.BasicResult
 import com.technorapper.onboarding.data.data_model.weather.WeatherForecastResponse
 import org.json.JSONObject
 import retrofit2.Response
@@ -22,5 +23,5 @@ interface OnBoardApi {
         @Query("userName") userName: String,
         @Query("idToken") idToken: String,
         @Query("uid") uid: String
-    ): JSONObject
+    ): BasicResult
 }

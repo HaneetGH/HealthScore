@@ -76,7 +76,11 @@ class onBoardingRepository : BaseRepository() {
                     "email" to email,
                     "profession" to profession
                 )
+                val db = Firebase.firestore
 
+
+// Add a new document with a generated ID
+                  db.collection("users").add(user)
 // Add a new document with a generated ID
 
                 val result = NetworkLayer.create().addusers(

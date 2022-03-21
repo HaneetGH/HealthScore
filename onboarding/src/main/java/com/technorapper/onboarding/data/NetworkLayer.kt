@@ -14,14 +14,12 @@ class NetworkLayer {
         var BASE_URL = "https://us-central1-healthscore-4fcdf.cloudfunctions.net/"
 
         fun create(): OnBoardApi {
-
             val retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(oKHttpClient(loggingInterceptor()))
                 .baseUrl(BASE_URL)
                 .build()
             return retrofit.create(OnBoardApi::class.java)
-
         }
 
         fun loggingInterceptor(): HttpLoggingInterceptor {
