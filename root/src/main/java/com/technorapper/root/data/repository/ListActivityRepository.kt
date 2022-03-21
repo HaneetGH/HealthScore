@@ -46,7 +46,6 @@ class ListActivityRepository @Inject constructor(
             )
         } // Use the IO thread for this Flow // Use the IO thread for this Flow // Use the IO thread for this Flow
     }
-
     suspend fun deleteItem(
         locationTable: LocationTable
     ): Flow<DataState> {
