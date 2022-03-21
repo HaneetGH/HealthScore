@@ -57,7 +57,7 @@ class LoginFragment : BaseFragment() {
 
     private fun setEvents() {
         binding.registerBtn.setOnClickListener {
-            it.findNavController().navigate(R.id.action_blankFragmentOne_to_registerFragment)
+         //   it.findNavController().navigate(R.id.action_blankFragmentOne_to_registerFragment)
 
         }
     }

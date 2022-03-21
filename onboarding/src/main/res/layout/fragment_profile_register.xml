@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="counter"
+            type="Double" />
+
+        <variable
+            name="handler"
+            type="com.technorapper.onboarding.ui.onboarding.fragment.RegisterProfileFragment.ClickEvents" />
+
+        <variable
+            name="isListHere"
+            type="boolean" />
+
+        <variable
+            name="progressCircular"
+            type="boolean" />
+
+        <variable
+            name="isOTPGenerated"
+            type="boolean" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_margin="@dimen/_10sdp"
+            android:id="@+id/profilePic"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@drawable/cloud" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/llMain"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginVertical="@dimen/_2sdp"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_marginRight="@dimen/_2sdp"
+            android:minHeight="@dimen/_100sdp"
+
+
+            android:orientation="vertical"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="@dimen/_1sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:orientation="vertical"
+                    >
+
+                    <EditText
+
+                        android:id="@+id/etname"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:background="@drawable/edittext_background_grey"
+                        android:hint="Name"
+                        android:paddingStart="@dimen/_10sdp" />
+
+                    <TextView
+                        android:id="@+id/errorMessageName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:layout_marginTop="@dimen/_2sdp"
+
+                        />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:orientation="vertical"
+                    >
+
+                    <EditText
+                        android:id="@+id/etemail"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:background="@drawable/edittext_background_grey"
+                        android:hint="Email"
+                        android:paddingStart="@dimen/_10sdp" />
+
+                    <TextView
+                        android:id="@+id/errorMessageEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/etdob"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:background="@drawable/edittext_background_grey"
+                        android:gravity="center|left"
+                        android:hint="DOB"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <TextView
+                        android:id="@+id/errorMessageDOB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    >
+
+                    <EditText
+                        android:id="@+id/etprofessional"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:background="@drawable/edittext_background_grey"
+                        android:gravity="center|left"
+                        android:hint="Profession"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <TextView
+                        android:id="@+id/errorMessageOtpProfessional"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/four_side_less_round_kinda_black"
+            android:text="@string/save"
+            android:textColor="@color/white"
+            android:onClick="@{()->handler.saveData(etdob.getText().toString,etname.getText().toString,etemail.getText().toString,etprofessional.getText().toString)}"
+            />
+
+
+    </LinearLayout>
+</layout>

@@ -6,23 +6,17 @@
     app:startDestination="@id/registerFragment">
 
     <fragment
-        android:id="@+id/blankFragmentOne"
-        android:name="com.technorapper.onboarding.ui.onboarding.fragment.LoginFragment"
-        android:label="fragment_blank_one"
-        tools:layout="@layout/fragment_root">
-
-        <action
-            android:id="@+id/action_blankFragmentOne_pop"
-            app:popUpTo="@id/blankFragmentOne"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_blankFragmentOne_to_registerFragment"
-            app:destination="@id/registerFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/registerFragment"
         android:name="com.technorapper.onboarding.ui.onboarding.fragment.RegisterFragment"
-        android:label="RegisterFragment" />
+        android:label="RegisterFragment" >
+        <action
+            android:id="@+id/action_registerFragment_to_registerProfileFragment"
+            app:destination="@id/registerProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerProfileFragment"
+        android:name="com.technorapper.onboarding.ui.onboarding.fragment.RegisterProfileFragment"
+        android:label="RegisterProfileFragment" /><action android:id="@+id/action_global_registerFragment" app:destination="@id/registerFragment"/>
 
 
 </navigation>

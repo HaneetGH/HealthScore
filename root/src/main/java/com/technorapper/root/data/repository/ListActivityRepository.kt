@@ -24,7 +24,6 @@ class ListActivityRepository @Inject constructor(
 ) : BaseRepository() {
     private val appContext = context.applicationContext
 
-
     suspend fun fetchBookmark(
     ): Flow<DataState> {
         return flow {
