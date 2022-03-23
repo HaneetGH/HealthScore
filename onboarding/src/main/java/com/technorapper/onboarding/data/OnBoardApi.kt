@@ -13,7 +13,7 @@ import retrofit2.http.Query
 
 interface OnBoardApi {
 
-    @POST("addusers")
+    @POST("addNpUsers")
     suspend fun addusers(
         @Query("useremail") useremail: String,
         @Query("profession") profession: String,
