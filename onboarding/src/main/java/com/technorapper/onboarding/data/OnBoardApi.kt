@@ -24,4 +24,10 @@ interface OnBoardApi {
         @Query("idToken") idToken: String,
         @Query("uid") uid: String
     ): BasicResult
+
+    @POST("isProfileThere")
+    suspend fun isProfileThere(
+        @Query("userID") userID: String,
+        @Query("idToken") idToken: String
+    ): BasicResult
 }

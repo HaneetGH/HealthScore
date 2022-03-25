@@ -66,23 +66,6 @@ class onBoardingRepository : BaseRepository() {
             // var response: VehicleCategoriesList = null
 
             try {
-                val user = hashMapOf(
-                    "userDOB" to userDOB,
-                    "userID" to myPreference.getStoredUnit(),
-                    "idToken" to myPreference.getStoredfbToken(),
-                    "uid" to myPreference.getStoredUnit(),
-                    "userLastLocation" to userLastLocation,
-                    "userName" to userName,
-                    "email" to email,
-                    "profession" to profession
-                )
-                val db = Firebase.firestore
-
-
-// Add a new document with a generated ID
-                  db.collection("users").add(user)
-// Add a new document with a generated ID
-
                 val result = NetworkLayer.create().addusers(
                     email,
                     profession,
@@ -104,6 +87,32 @@ class onBoardingRepository : BaseRepository() {
                 DataState.ErrorThrowable(
                     it,
                     Task.UPDATE_ONBOARD
+                )
+            )
+        } // Use the IO thread for this Flow // Use the IO thread for this Flow // Use the IO thread for this Flow
+    }
+
+    fun isUserProfileThere(): Flow<DataState> {
+        return flow {
+            emit(DataState.Loading(Task.IS_PROFILE_THERE))
+            // var response: VehicleCategoriesList = null
+
+            try {
+                val result = NetworkLayer.create().isProfileThere(
+                    myPreference.getStoredUnit(),
+                    myPreference.getStoredfbToken()
+                )
+                emit(DataState.Success(result, Task.IS_PROFILE_THERE))
+            } catch (e: Exception) {
+                Log.e("fetch erroe", e.message.toString());
+            }
+
+
+        }.flowOn(Dispatchers.IO).catch {
+            emit(
+                DataState.ErrorThrowable(
+                    it,
+                    Task.IS_PROFILE_THERE
                 )
             )
         } // Use the IO thread for this Flow // Use the IO thread for this Flow // Use the IO thread for this Flow

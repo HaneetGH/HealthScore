@@ -31,5 +31,10 @@ class FirebaseUseCases constructor(
     ): Flow<DataState> {
         return repository.updateUserInfo(userDOB, userLastLocation, userName, email, profession);
     }
+    suspend fun isUserProfileThere(
+
+    ): Flow<DataState> {
+        return repository.isUserProfileThere();
+    }
 
 }
