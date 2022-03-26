@@ -2,6 +2,7 @@ package com.technorapper.onboarding.ui.onboarding.fragment
 
 
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,10 +18,12 @@ import com.google.firebase.auth.*
 import com.technorapper.onboarding.R
 import com.technorapper.onboarding.base.BaseFragment
 import com.technorapper.onboarding.constant.Task
+import com.technorapper.onboarding.data.data_model.BasicResult
 import com.technorapper.onboarding.databinding.ActivityRegisterBinding
 import com.technorapper.onboarding.domain.DataState
 import com.technorapper.onboarding.ui.onboarding.MainListStateEvent
 import com.technorapper.onboarding.ui.onboarding.OnBoardingViewModel
+import com.technorapper.root.ui.list.RootActivity
 import java.util.concurrent.TimeUnit
 
 
@@ -66,7 +69,6 @@ class RegisterFragment : BaseFragment() {
 
 
     override fun attachViewModel() {
-        viewModel.setStateEvent(MainListStateEvent.FetchBookmark)
         viewModel.pushContext(requireActivity())
         viewModel.uiState.observe(this, Observer { parse(it) })
     }
@@ -84,6 +86,27 @@ class RegisterFragment : BaseFragment() {
 
                     if (it?.data != null) {
                         when (it.task) {
+                            Task.IS_PROFILE_THERE -> {
+                                try {
+                                    val basicResult = it.data as BasicResult
+                                    if (basicResult.result.status_code == 1) {
+                                        startActivity(
+                                            Intent(
+                                                activity,
+                                                RootActivity::class.java
+                                            )
+                                        )
+                                        requireActivity().finishAffinity()
+                                    } else if (basicResult.result.status_code == 4) {
+                                        findNavController().navigate(R.id.action_registerFragment_to_registerProfileFragment)
+                                    } else {
+                                        findNavController().navigate(R.id.action_registerFragment_to_registerProfileFragment)
+
+                                    }
+                                } catch (e: Exception) {
+
+                                }
+                            }
                             Task.ONBOARD -> {
                                 try {
                                     val value =
@@ -105,8 +128,7 @@ class RegisterFragment : BaseFragment() {
                                                             requireActivity()
                                                         )
 
-
-                                                        findNavController().navigate(R.id.action_registerFragment_to_registerProfileFragment)
+                                                        viewModel.setStateEvent(MainListStateEvent.IsProfileAvail)
                                                         /*mAuth!!.signInWithCustomToken("eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImlhdCI6MTY0NzQ1OTkwOCwiZXhwIjoxNjQ3NDYzNTA4LCJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay1xaG1nM0BoZWFsdGhzY29yZS00ZmNkZi5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsInN1YiI6ImZpcmViYXNlLWFkbWluc2RrLXFobWczQGhlYWx0aHNjb3JlLTRmY2RmLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwidWlkIjoiaFEzdGR5RmZSV2RTUlVEM2pTVG1QbzZKcEh1MSJ9.KsZ3tY2A0c1YWQS7HJLZK2F3-D6yJXdu_4_0E1kUjjIdXlpBDacOq8CQYemZ0Q3TVP09BzS6l7lil94j7ag2z4NUBgb-abzXm51ziLdTWd2S61asO-OWVoMST5lUNqOqmQIvJKmjgKQedAFlhkoEglYah-4334_NhVcLOecmRaWG-tX5gr3bXI6x4cz9gnHTswxFWuwz7hmLMyPfTjthM-_ZwRI_i9RGC-By6L_YnSVLVvIi2iK8HFeFSfbNwA5KshPJtVjinLAet_vG9cIDT1RWs4ceO9tZVB6UtOZPzcu0sW1Tpm1hzyXvpSkoH5P-dKUgkwhj_9z6GpZmB2X2CQ")
                                                             .addOnCompleteListener {
 

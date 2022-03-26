@@ -54,6 +54,15 @@ class OnBoardingViewModel : ViewModel() {
                         }
 
                 }
+                is MainListStateEvent.IsProfileAvail -> {
+                    useCases.isUserProfileThere(
+                    )
+                        .collect {
+                            Log.d("return", it.toString())
+                            uiState.value = it
+                        }
+
+                }
             }
 
         }
@@ -110,7 +119,7 @@ class OnBoardingViewModel : ViewModel() {
 
 sealed class MainListStateEvent {
 
-    object FetchBookmark : MainListStateEvent()
+    object IsProfileAvail : MainListStateEvent()
     data class UpdateUserInfo(
         val userDOB: String,
         val userLastLocation: String,

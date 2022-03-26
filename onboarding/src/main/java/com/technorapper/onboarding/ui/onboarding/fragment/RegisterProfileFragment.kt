@@ -71,7 +71,7 @@ class RegisterProfileFragment : BaseFragment() {
 
 
     override fun attachViewModel() {
-        viewModel.setStateEvent(MainListStateEvent.FetchBookmark)
+
         viewModel.pushContext(requireActivity())
         viewModel.uiState.observe(this, Observer { parse(it) })
     }
