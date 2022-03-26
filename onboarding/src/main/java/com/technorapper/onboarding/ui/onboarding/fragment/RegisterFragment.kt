@@ -88,8 +88,6 @@ class RegisterFragment : BaseFragment() {
                         when (it.task) {
                             Task.IS_PROFILE_THERE -> {
                                 try {
-
-                                } catch (e: Exception) {
                                     val basicResult = it.data as BasicResult
                                     if (basicResult.result.status_code == 1) {
                                         startActivity(
@@ -99,10 +97,14 @@ class RegisterFragment : BaseFragment() {
                                             )
                                         )
                                         requireActivity().finishAffinity()
+                                    } else if (basicResult.result.status_code == 4) {
+                                        findNavController().navigate(R.id.action_registerFragment_to_registerProfileFragment)
                                     } else {
                                         findNavController().navigate(R.id.action_registerFragment_to_registerProfileFragment)
 
                                     }
+                                } catch (e: Exception) {
+
                                 }
                             }
                             Task.ONBOARD -> {

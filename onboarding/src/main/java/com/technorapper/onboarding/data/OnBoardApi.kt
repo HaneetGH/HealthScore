@@ -27,7 +27,7 @@ interface OnBoardApi {
 
     @POST("isProfileThere")
     suspend fun isProfileThere(
-        @Query("userID") userID: String,
+        @Query("uid") userID: String,
         @Query("idToken") idToken: String
     ): BasicResult
 }
