@@ -1,7 +1,7 @@
-package com.technorapper.healthscore.proto
+package com.technorapper.onboarding.proto
 
 import androidx.datastore.core.DataStore
-import com.technorapper.healthscore.UserStore
+import com.technorapper.onboarding.UserStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map

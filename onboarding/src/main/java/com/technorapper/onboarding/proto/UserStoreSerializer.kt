@@ -1,9 +1,10 @@
-package com.technorapper.healthscore.proto
+package com.technorapper.onboarding.proto
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
 import androidx.datastore.preferences.protobuf.InvalidProtocolBufferException
-import com.technorapper.healthscore.UserStore
+import com.technorapper.onboarding.UserStore
+
 import java.io.InputStream
 import java.io.OutputStream
 

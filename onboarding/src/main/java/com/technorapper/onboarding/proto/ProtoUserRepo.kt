@@ -1,4 +1,4 @@
-package com.technorapper.healthscore.proto
+package com.technorapper.onboarding.proto
 
 import kotlinx.coroutines.flow.Flow
 
