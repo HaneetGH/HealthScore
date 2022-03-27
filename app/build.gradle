@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-
+    id "com.google.protobuf" version "0.8.12"
 }
 
 apply plugin: 'com.google.gms.google-services'  // Google Services plugin
@@ -46,7 +46,24 @@ android {
         jvmTarget = '1.8'
     }
 }
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.14.0"
+    }
 
+    // Generates the java Protobuf-lite code for the Protobufs in this project. See
+    // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
+    // for more information.
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option 'lite'
+                }
+            }
+        }
+    }
+}
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -69,4 +86,16 @@ dependencies {
     // For local unit tests
     testImplementation 'com.google.dagger:hilt-android-testing:2.41'
     testAnnotationProcessor 'com.google.dagger:hilt-compiler:2.41'
+
+    implementation "androidx.datastore:datastore-preferences-core:1.0.0"
+    implementation "androidx.datastore:datastore-core:1.0.0"
+
+    implementation "androidx.datastore:datastore:1.0.0"
+
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
+
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+
+    implementation  "com.google.protobuf:protobuf-javalite:3.17.2"
 }
