@@ -1,4 +1,4 @@
-package com.technorapper.onboarding.proto
+package com.technorapper.root.proto
 
 import kotlinx.coroutines.flow.Flow
 

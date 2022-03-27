@@ -22,13 +22,16 @@ import com.technorapper.onboarding.databinding.FragmentProfileRegisterBinding
 import com.technorapper.onboarding.domain.DataState
 import com.technorapper.onboarding.ui.onboarding.MainListStateEvent
 import com.technorapper.onboarding.ui.onboarding.OnBoardingViewModel
+import com.technorapper.root.extension.userDataStore
+import com.technorapper.root.proto.ProtoUserRepo
+import com.technorapper.root.proto.ProtoUserRepoImpl
 import com.technorapper.root.ui.list.RootActivity
 import org.json.JSONObject
 import java.util.*
 
 
 class RegisterProfileFragment : BaseFragment() {
-
+    private var userRepo: ProtoUserRepo? = null
 
     private var mAuth: FirebaseAuth? = null;
     private val viewModel by viewModels<OnBoardingViewModel>()
@@ -71,7 +74,8 @@ class RegisterProfileFragment : BaseFragment() {
 
 
     override fun attachViewModel() {
-
+        userRepo = ProtoUserRepoImpl(requireContext().userDataStore)
+        viewModel.InjectDep(userRepo!!)
         viewModel.pushContext(requireActivity())
         viewModel.uiState.observe(this, Observer { parse(it) })
     }

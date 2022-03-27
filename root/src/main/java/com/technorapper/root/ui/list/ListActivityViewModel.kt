@@ -8,20 +8,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.technorapper.root.data.MyPreference
 import com.technorapper.root.data.data_model.LocationTable
 
 import com.technorapper.root.data.repository.ListActivityRepository
 import com.technorapper.root.domain.DataState
+import com.technorapper.root.proto.ProtoUserRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 import javax.inject.Inject
 
 @HiltViewModel
 class ListActivityViewModel @Inject constructor(
-    private val repository: ListActivityRepository,private val myPreference: MyPreference
+    private val repository: ListActivityRepository,
+    private val userRepo: ProtoUserRepo
 
 ) : ViewModel() {
     var reset = ObservableBoolean()
@@ -45,34 +48,39 @@ class ListActivityViewModel @Inject constructor(
                     repository.nukeTable(
                     ).collect { uiState.value = it }
                 }
-                is MainListStateEvent.UpdateUnit -> {
-                    repository.updateUnit(
-                        mainStateEvent.which
-                    )
 
-                }
-                is MainListStateEvent.FetchDefault -> {
-                    repository.fetchDefault(
-                    ).collect { uiState.value = it }
-
-                }
             }
 
         }
     }
 
-    fun getUser() {
+    suspend fun getUser() {
         val db = Firebase.firestore
+        var uid = ""
+        userRepo.getUserID().collect { uid = it }
         db.collection("users")
-            .whereEqualTo("userID", myPreference.getStoredUnit())
+            .whereEqualTo("userID", uid)
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Log.w(ContentValues.TAG, "Listen failed.", e)
                     return@addSnapshotListener
                 }
 
-                Log.d(ContentValues.TAG, "Current users : ${snapshots!!.documents[0].data?.get("userName")}")
+                Log.d(
+                    ContentValues.TAG,
+                    "Current users : ${snapshots!!.documents[0].data?.get("userName")}"
+                )
             }
+    }
+
+    fun showFlow() {
+        viewModelScope.launch {
+            userRepo?.getUserID()?.collect { state ->
+                withContext(Dispatchers.Main) {
+                    Log.d("Value Root", state)
+                }
+            }
+        }
     }
 
 

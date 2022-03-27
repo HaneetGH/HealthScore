@@ -5,7 +5,6 @@ import android.content.Context
 import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 import com.technorapper.root.constant.Task
-import com.technorapper.root.data.MyPreference
 import com.technorapper.root.data.WeatherApi
 import com.technorapper.root.domain.DataState
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -16,7 +15,7 @@ import javax.inject.Inject
 
 
 class MainActivityRepository @Inject constructor(
-    @ApplicationContext context: Context, private val weatherApi: WeatherApi,private val myPreference: MyPreference
+    @ApplicationContext context: Context, private val weatherApi: WeatherApi
 ) : BaseRepository() {
     private val appContext = context.applicationContext
     var API_KEY = "fae7190d7e6433ec3a45285ffcf55c86"
@@ -31,7 +30,7 @@ class MainActivityRepository @Inject constructor(
                 var response = weatherApi.getWeatherData(
                     latLng!!.latitude,
                     latLng!!.longitude,
-                    myPreference.getStoredUnit(),
+                   " myPreference.getStoredUnit()",
                     API_KEY
                 )
                 emit(DataState.Success(response, Task.FETCH_WEATHER))

@@ -4,10 +4,10 @@ package com.technorapper.root.data.repository
 import android.content.Context
 import android.util.Log
 import com.technorapper.root.constant.Task
-import com.technorapper.root.data.MyPreference
 import com.technorapper.root.data.data_model.LocationTable
 import com.technorapper.root.data.room.database.dao.LocationDao
 import com.technorapper.root.domain.DataState
+import com.technorapper.root.proto.ProtoUserRepo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -19,8 +19,7 @@ import javax.inject.Inject
 
 class ListActivityRepository @Inject constructor(
     @ApplicationContext context: Context,
-    private val locationDao: LocationDao,
-    private val myPreference: MyPreference
+    private val locationDao: LocationDao
 ) : BaseRepository() {
     private val appContext = context.applicationContext
 
@@ -46,6 +45,7 @@ class ListActivityRepository @Inject constructor(
             )
         } // Use the IO thread for this Flow // Use the IO thread for this Flow // Use the IO thread for this Flow
     }
+
     suspend fun deleteItem(
         locationTable: LocationTable
     ): Flow<DataState> {
@@ -93,33 +93,6 @@ class ListActivityRepository @Inject constructor(
         } // Use the IO thread for this Flow // Use the IO thread for this Flow // Use the IO thread for this Flow
     }
 
-    suspend fun fetchDefault(
-    ): Flow<DataState> {
-        return flow {
-            emit(DataState.Loading(Task.DEFAULT))
-            // var response: VehicleCategoriesList = null
-            try {
-                var response = myPreference.getStoredUnit()
-                emit(DataState.Success(response, Task.DEFAULT))
-            } catch (e: Exception) {
-                Log.e("fetch erroe", e.message.toString());
-            }
 
-
-        }.flowOn(Dispatchers.IO).catch {
-            emit(
-                DataState.ErrorThrowable(
-                    it,
-                    Task.DEFAULT
-                )
-            )
-        } // Use the IO thread for this Flow // Use the IO thread for this Flow // Use the IO thread for this Flow
-    }
-
-    suspend fun updateUnit(
-        unit: Boolean
-    ) {
-        myPreference.setStoredUnit(if (unit) "imperial" else "metric")
-    }
 }
 

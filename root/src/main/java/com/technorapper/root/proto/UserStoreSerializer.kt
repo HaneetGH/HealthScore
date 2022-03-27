@@ -1,9 +1,9 @@
-package com.technorapper.onboarding.proto
+package com.technorapper.root.proto
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
 import androidx.datastore.preferences.protobuf.InvalidProtocolBufferException
-import com.technorapper.onboarding.UserStore
+import com.technorapper.root.UserStore
 
 import java.io.InputStream
 import java.io.OutputStream

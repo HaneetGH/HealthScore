@@ -2,7 +2,6 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'androidx.navigation.safeargs.kotlin'
-    id "com.google.protobuf" version "0.8.12"
 
 }
 apply plugin: 'com.google.gms.google-services'  // Google Services plugin
@@ -81,24 +80,6 @@ android {
     }
 }
 
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.14.0"
-    }
-
-    // Generates the java Protobuf-lite code for the Protobufs in this project. See
-    // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
-    // for more information.
-    generateProtoTasks {
-        all().each { task ->
-            task.builtins {
-                java {
-                    option 'lite'
-                }
-            }
-        }
-    }
-}
 dependencies {
 
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
@@ -162,16 +143,6 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-firestore-ktx'
 
-    implementation "androidx.datastore:datastore-preferences-core:1.0.0"
     implementation "androidx.datastore:datastore-core:1.0.0"
-
-    implementation "androidx.datastore:datastore:1.0.0"
-
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
-
-    implementation "androidx.datastore:datastore-preferences:1.0.0"
-
-
-    implementation  "com.google.protobuf:protobuf-javalite:3.17.2"
 
 }

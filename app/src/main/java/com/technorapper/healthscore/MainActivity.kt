@@ -1,18 +1,13 @@
 package com.technorapper.healthscore
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
 import androidx.lifecycle.lifecycleScope
-import com.technorapper.onboarding.UserStore
-import com.technorapper.onboarding.extension.userDataStore
-import com.technorapper.onboarding.proto.ProtoUserRepo
-import com.technorapper.onboarding.proto.ProtoUserRepoImpl
-import com.technorapper.onboarding.proto.UserStoreSerializer
+import com.technorapper.root.extension.userDataStore
+import com.technorapper.root.proto.ProtoUserRepo
+import com.technorapper.root.proto.ProtoUserRepoImpl
 import com.technorapper.onboarding.ui.onboarding.OnBoardingActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect

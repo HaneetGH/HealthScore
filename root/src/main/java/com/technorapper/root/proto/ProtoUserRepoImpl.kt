@@ -1,7 +1,8 @@
-package com.technorapper.onboarding.proto
+package com.technorapper.root.proto
 
 import androidx.datastore.core.DataStore
-import com.technorapper.onboarding.UserStore
+import com.technorapper.root.UserStore
+
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
