@@ -111,22 +111,14 @@ class onBoardingRepository : BaseRepository() {
             try {
                 var uid = ""
                 var tokenid = ""
-                val result =
-                    myPreference.getUserID().flatMapMerge { id ->
-                        uid = id
-                        myPreference.getTokenID()
-                    }.map { token ->
-                        tokenid = token
-                    }.map {
-                        NetworkLayer.create().isProfileThere(
-                            uid,
-                            tokenid
-                        )
-                    }
-
-
-
-
+                val result = myPreference.getUserID().flatMapMerge { id ->
+                    uid = id
+                    myPreference.getTokenID()
+                }.map { token ->
+                    tokenid = token
+                }.map {
+                    NetworkLayer.create().isProfileThere(uid, tokenid)
+                }
                 result.catch {
                     emit(
                         DataState.ErrorThrowable(
