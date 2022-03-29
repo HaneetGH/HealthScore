@@ -57,7 +57,8 @@ class onBoardingRepository : BaseRepository() {
             try {
                 var uid = ""
                 var tokenid = ""
-                val result = runBlocking {
+                var result = runBlocking(handler) {
+
                     myPreference.getUserID().flatMapConcat { id ->
                         uid = id
                         myPreference.getTokenID()
@@ -76,11 +77,17 @@ class onBoardingRepository : BaseRepository() {
                         )
                     }
                 }
-                result.collect {
+
+                result.catch {
+                    emit(
+                        DataState.ErrorThrowable(
+                            it,
+                            Task.UPDATE_ONBOARD
+                        )
+                    )
+                }.collect {
                     emit(DataState.Success(it, Task.UPDATE_ONBOARD))
                 }
-
-
             } catch (e: Exception) {
                 Log.e("fetch erroe", e.message.toString());
             }
@@ -120,7 +127,14 @@ class onBoardingRepository : BaseRepository() {
 
 
 
-                result.collect {
+                result.catch {
+                    emit(
+                        DataState.ErrorThrowable(
+                            it,
+                            Task.IS_PROFILE_THERE
+                        )
+                    )
+                }.collect {
                     emit(DataState.Success(it, Task.IS_PROFILE_THERE))
                 }
 
@@ -146,6 +160,8 @@ class onBoardingRepository : BaseRepository() {
         this.myPreference = myPreference
     }
 
-
+    val handler = CoroutineExceptionHandler { _, exception ->
+        println("CoroutineExceptionHandler got $exception")
+    }
 }
 
