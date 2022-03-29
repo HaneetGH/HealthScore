@@ -57,7 +57,7 @@ class onBoardingRepository : BaseRepository() {
             try {
                 var uid = ""
                 var tokenid = ""
-                var result = runBlocking(handler) {
+                var result =
 
                     myPreference.getUserID().flatMapConcat { id ->
                         uid = id
@@ -76,7 +76,7 @@ class onBoardingRepository : BaseRepository() {
                             uid
                         )
                     }
-                }
+
 
                 result.catch {
                     emit(
@@ -111,7 +111,7 @@ class onBoardingRepository : BaseRepository() {
             try {
                 var uid = ""
                 var tokenid = ""
-                val result = runBlocking {
+                val result =
                     myPreference.getUserID().flatMapMerge { id ->
                         uid = id
                         myPreference.getTokenID()
@@ -123,7 +123,7 @@ class onBoardingRepository : BaseRepository() {
                             tokenid
                         )
                     }
-                }
+
 
 
 
