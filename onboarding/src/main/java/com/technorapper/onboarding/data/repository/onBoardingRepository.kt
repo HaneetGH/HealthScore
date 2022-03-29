@@ -56,20 +56,31 @@ class onBoardingRepository : BaseRepository() {
 
             try {
                 var uid = ""
-                var tokenId = ""
-                myPreference.getUserID().collect { uid = it }
-                myPreference.getTokenID().collect { tokenId = it }
-                val result = NetworkLayer.create().addusers(
-                    email,
-                    profession,
-                    userDOB,
-                    uid,
-                    userLastLocation,
-                    userName,
-                    tokenId,
-                    uid
-                )
-                emit(DataState.Success(result, Task.UPDATE_ONBOARD))
+                var tokenid = ""
+                val result = runBlocking {
+                    myPreference.getUserID().flatMapConcat { id ->
+                        uid = id
+                        myPreference.getTokenID()
+                    }.map { token ->
+                        tokenid = token
+                    }.map {
+                        NetworkLayer.create().addusers(
+                            email,
+                            profession,
+                            userDOB,
+                            uid,
+                            userLastLocation,
+                            userName,
+                            tokenid,
+                            uid
+                        )
+                    }
+                }
+                result.collect {
+                    emit(DataState.Success(it, Task.UPDATE_ONBOARD))
+                }
+
+
             } catch (e: Exception) {
                 Log.e("fetch erroe", e.message.toString());
             }
@@ -92,50 +103,33 @@ class onBoardingRepository : BaseRepository() {
 
             try {
                 var uid = ""
-                var tokenId = ""
-                val processedList = coroutineScope {
-                    val firstHalfDeffered = async(Dispatchers.IO) {
-                        myPreference.getUserID().collect {
-
-                            uid = it
-
-                        }
-                        myPreference.getTokenID().collect {
-
-                            tokenId = it
-
-                        }
+                var tokenid = ""
+                val result = runBlocking {
+                    myPreference.getUserID().flatMapMerge { id ->
+                        uid = id
+                        myPreference.getTokenID()
+                    }.map { token ->
+                        tokenid = token
+                    }.map {
+                        NetworkLayer.create().isProfileThere(
+                            uid,
+                            tokenid
+                        )
                     }
+                }
 
-                    firstHalfDeffered.invokeOnCompletion {
-                        async {
 
-                            if (it == null) {
 
-                                val result = NetworkLayer.create().isProfileThere(
-                                    uid,
-                                    tokenId
-                                )
-
-                                emit(DataState.Success(result, Task.IS_PROFILE_THERE))
-
-                            } else {
-                                DataState.ErrorThrowable(
-                                    it,
-                                    Task.IS_PROFILE_THERE
-                                )
-                            }
-
-                        }
-
-                    }
-                    //firstHalfDeffered.await() + secondHalfDeffered.await()
+                result.collect {
+                    emit(DataState.Success(it, Task.IS_PROFILE_THERE))
                 }
 
 
             } catch (e: Exception) {
-                Log.e("fetch erroe", e.message.toString());
+
             }
+
+            //firstHalfDeffered.await() + secondHalfDeffered.await()
 
 
         }.flowOn(Dispatchers.IO).catch {

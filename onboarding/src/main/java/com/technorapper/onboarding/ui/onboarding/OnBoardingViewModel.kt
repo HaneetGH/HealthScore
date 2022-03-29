@@ -87,7 +87,7 @@ class OnBoardingViewModel : ViewModel() {
     fun saveTokenId(token: String?) {
         if (token != null) {
             viewModelScope.launch {
-                protoUserRepo?.saveUserID(token)
+                protoUserRepo?.saveTokenID(token)
             }
         }
 
