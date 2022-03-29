@@ -7,15 +7,18 @@ import androidx.databinding.ObservableBoolean
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.technorapper.onboarding.R
 import com.technorapper.onboarding.data.repository.onBoardingRepository
 import com.technorapper.onboarding.data.usecases.FirebaseUseCases
 import com.technorapper.onboarding.domain.DataState
-import com.technorapper.root.data.MyPreference
+import com.technorapper.root.proto.ProtoUserRepo
+import kotlinx.coroutines.Dispatchers
 
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 
@@ -24,9 +27,13 @@ class OnBoardingViewModel : ViewModel() {
     var reset = ObservableBoolean()
     private val _uiState: MutableLiveData<DataState> = MutableLiveData()
     val uiState: MutableLiveData<DataState> get() = _uiState
-    lateinit var myPreference: MyPreference
+    var protoUserRepo: ProtoUserRepo? = null
 
     lateinit var useCases: FirebaseUseCases
+    fun InjectDep(protoUserRepo: ProtoUserRepo) {
+        this.protoUserRepo = protoUserRepo
+    }
+
     fun setStateEvent(mainStateEvent: MainListStateEvent) {
         viewModelScope.launch {
             when (mainStateEvent) {
@@ -54,30 +61,41 @@ class OnBoardingViewModel : ViewModel() {
                         }
 
                 }
+                is MainListStateEvent.IsProfileAvail -> {
+                    useCases.isUserProfileThere(
+                    )
+                        .collect {
+                            Log.d("return", it.toString())
+                            uiState.value = it
+                        }
+
+                }
             }
 
         }
     }
 
-    fun saveInPref(uid: String?, activity: Activity) {
+    fun saveInPref(uid: String?) {
         if (uid != null) {
-            myPreference = MyPreference(activity)
-            myPreference.setStoredUnit(uid)
+            viewModelScope.launch {
+                protoUserRepo?.saveUserID(uid)
+            }
         }
 
     }
 
-    fun saveTokenId(token: String?, activity: Activity) {
+    fun saveTokenId(token: String?) {
         if (token != null) {
-            myPreference = MyPreference(activity)
-            myPreference.setStoredfbToken(token)
+            viewModelScope.launch {
+                protoUserRepo?.saveTokenID(token)
+            }
         }
 
     }
 
     fun pushContext(requireActivity: Activity) {
-        myPreference = MyPreference(requireActivity)
-        useCases = FirebaseUseCases(myPreference, onBoardingRepository());
+
+        useCases = FirebaseUseCases(protoUserRepo!!, onBoardingRepository());
     }
 
     fun fetchTimeAndDate(activity: FragmentActivity?): MutableLiveData<String> {
@@ -110,7 +128,7 @@ class OnBoardingViewModel : ViewModel() {
 
 sealed class MainListStateEvent {
 
-    object FetchBookmark : MainListStateEvent()
+    object IsProfileAvail : MainListStateEvent()
     data class UpdateUserInfo(
         val userDOB: String,
         val userLastLocation: String,

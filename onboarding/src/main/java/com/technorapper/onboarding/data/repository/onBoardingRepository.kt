@@ -1,32 +1,21 @@
 package com.technorapper.onboarding.data.repository
 
 
-import android.content.ContentValues
-import android.content.Context
-import android.net.Network
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.technorapper.onboarding.constant.Task
 import com.technorapper.onboarding.data.NetworkLayer
 import com.technorapper.onboarding.domain.DataState
-import com.technorapper.root.data.MyPreference
-import com.technorapper.root.data.room.database.dao.LocationDao
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.technorapper.root.proto.ProtoUserRepo
+import kotlinx.coroutines.*
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import javax.inject.Inject
+import kotlinx.coroutines.flow.*
 
 
 class onBoardingRepository : BaseRepository() {
 
-    lateinit var myPreference: MyPreference
+    lateinit var myPreference: ProtoUserRepo
     suspend fun registerUser(
         storedVerificationId: String, code: String
     ): Flow<DataState> {
@@ -66,34 +55,32 @@ class onBoardingRepository : BaseRepository() {
             // var response: VehicleCategoriesList = null
 
             try {
-                val user = hashMapOf(
-                    "userDOB" to userDOB,
-                    "userID" to myPreference.getStoredUnit(),
-                    "idToken" to myPreference.getStoredfbToken(),
-                    "uid" to myPreference.getStoredUnit(),
-                    "userLastLocation" to userLastLocation,
-                    "userName" to userName,
-                    "email" to email,
-                    "profession" to profession
-                )
-                val db = Firebase.firestore
+                var uid = ""
+                var tokenid = ""
+                val result = runBlocking {
+                    myPreference.getUserID().flatMapConcat { id ->
+                        uid = id
+                        myPreference.getTokenID()
+                    }.map { token ->
+                        tokenid = token
+                    }.map {
+                        NetworkLayer.create().addusers(
+                            email,
+                            profession,
+                            userDOB,
+                            uid,
+                            userLastLocation,
+                            userName,
+                            tokenid,
+                            uid
+                        )
+                    }
+                }
+                result.collect {
+                    emit(DataState.Success(it, Task.UPDATE_ONBOARD))
+                }
 
 
-// Add a new document with a generated ID
-                  db.collection("users").add(user)
-// Add a new document with a generated ID
-
-                val result = NetworkLayer.create().addusers(
-                    email,
-                    profession,
-                    userDOB,
-                    myPreference.getStoredUnit(),
-                    userLastLocation,
-                    userName,
-                    myPreference.getStoredfbToken(),
-                    myPreference.getStoredUnit()
-                )
-                emit(DataState.Success(result, Task.UPDATE_ONBOARD))
             } catch (e: Exception) {
                 Log.e("fetch erroe", e.message.toString());
             }
@@ -109,7 +96,53 @@ class onBoardingRepository : BaseRepository() {
         } // Use the IO thread for this Flow // Use the IO thread for this Flow // Use the IO thread for this Flow
     }
 
-    fun pushPrefence(myPreference: MyPreference) {
+    fun isUserProfileThere(): Flow<DataState> {
+        return flow {
+            emit(DataState.Loading(Task.IS_PROFILE_THERE))
+            // var response: VehicleCategoriesList = null
+
+            try {
+                var uid = ""
+                var tokenid = ""
+                val result = runBlocking {
+                    myPreference.getUserID().flatMapMerge { id ->
+                        uid = id
+                        myPreference.getTokenID()
+                    }.map { token ->
+                        tokenid = token
+                    }.map {
+                        NetworkLayer.create().isProfileThere(
+                            uid,
+                            tokenid
+                        )
+                    }
+                }
+
+
+
+                result.collect {
+                    emit(DataState.Success(it, Task.IS_PROFILE_THERE))
+                }
+
+
+            } catch (e: Exception) {
+
+            }
+
+            //firstHalfDeffered.await() + secondHalfDeffered.await()
+
+
+        }.flowOn(Dispatchers.IO).catch {
+            emit(
+                DataState.ErrorThrowable(
+                    it,
+                    Task.IS_PROFILE_THERE
+                )
+            )
+        } // Use the IO thread for this Flow // Use the IO thread for this Flow // Use the IO thread for this Flow
+    }
+
+    fun pushPrefence(myPreference: ProtoUserRepo) {
         this.myPreference = myPreference
     }
 

@@ -64,13 +64,13 @@ class LoginFragment : BaseFragment() {
 
 
     override fun attachViewModel() {
-        viewModel.setStateEvent(MainListStateEvent.FetchBookmark)
+
         viewModel.uiState.observe(this, Observer { parse(it) })
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel?.setStateEvent(MainListStateEvent.FetchBookmark)
+
     }
 
     private fun parse(it: DataState?) {

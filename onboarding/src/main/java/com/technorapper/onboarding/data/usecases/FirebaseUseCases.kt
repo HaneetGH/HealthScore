@@ -2,13 +2,13 @@ package com.technorapper.onboarding.data.usecases
 
 import com.technorapper.onboarding.data.repository.onBoardingRepository
 import com.technorapper.onboarding.domain.DataState
-import com.technorapper.root.data.MyPreference
+import com.technorapper.root.proto.ProtoUserRepo
 
 import kotlinx.coroutines.flow.Flow
 
 
 class FirebaseUseCases constructor(
-    private val preference: MyPreference,
+    private val preference: ProtoUserRepo,
     private val repository: onBoardingRepository
 
 ) {
@@ -30,6 +30,11 @@ class FirebaseUseCases constructor(
         profession: String
     ): Flow<DataState> {
         return repository.updateUserInfo(userDOB, userLastLocation, userName, email, profession);
+    }
+    suspend fun isUserProfileThere(
+
+    ): Flow<DataState> {
+        return repository.isUserProfileThere();
     }
 
 }

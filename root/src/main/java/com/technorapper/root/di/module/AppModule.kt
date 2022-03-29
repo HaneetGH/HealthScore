@@ -1,8 +1,12 @@
 package com.technorapper.root.di.module
 
+import android.app.Activity
 import android.content.Context
 import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
+import com.technorapper.root.extension.userDataStore
+import com.technorapper.root.proto.ProtoUserRepo
+import com.technorapper.root.proto.ProtoUserRepoImpl
 import dagger.Module
 import dagger.Provides
 
@@ -22,6 +26,12 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+
+    @Provides
+    @Singleton
+    fun provideProtoUserRepo(@ApplicationContext app: Context): ProtoUserRepo {
+        return ProtoUserRepoImpl(app.userDataStore)
+    }
 
     @Provides
     @Singleton
