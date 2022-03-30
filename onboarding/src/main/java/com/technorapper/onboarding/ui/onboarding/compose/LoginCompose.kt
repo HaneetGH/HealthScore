@@ -46,7 +46,7 @@ fun LoginCompose(navController: NavController) {
 fun MessageInput(
 ) {
     var inputValue by remember { mutableStateOf("") } // 2
-
+    var inputValue2 by remember { mutableStateOf("") } // 2
     fun sendMessage() {
 
         inputValue = ""
@@ -65,8 +65,8 @@ fun MessageInput(
         TextField(
             // 4
             modifier = Modifier.weight(1f),
-            value = inputValue,
-            onValueChange = { inputValue = it.toString() },
+            value = inputValue2,
+            onValueChange = { inputValue2 = it.toString() },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
             keyboardActions = KeyboardActions { sendMessage() },
         )
