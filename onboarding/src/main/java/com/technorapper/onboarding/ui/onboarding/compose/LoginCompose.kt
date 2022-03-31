@@ -55,7 +55,7 @@ fun MessageInput(
     Column {
         TextField(
             // 4
-            modifier = Modifier.weight(1f),
+
             value = inputValue,
             onValueChange = { inputValue = it.toString() },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
@@ -64,7 +64,6 @@ fun MessageInput(
 
         TextField(
             // 4
-            modifier = Modifier.weight(1f),
             value = inputValue2,
             onValueChange = { inputValue2 = it.toString() },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
