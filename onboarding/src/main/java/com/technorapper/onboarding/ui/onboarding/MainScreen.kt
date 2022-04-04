@@ -8,11 +8,11 @@ import com.technorapper.onboarding.ui.nav.NAV_LOGIN
 import com.technorapper.onboarding.ui.onboarding.compose.LoginCompose
 
 @Composable
-fun MainScreen() {
+fun MainScreen(onBoardingViewModel: OnBoardingViewModel) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = NAV_LOGIN) {
-        composable(NAV_LOGIN) { LoginCompose(navController) }
+        composable(NAV_LOGIN) { LoginCompose(navController,onBoardingViewModel) }
     }
 
 }

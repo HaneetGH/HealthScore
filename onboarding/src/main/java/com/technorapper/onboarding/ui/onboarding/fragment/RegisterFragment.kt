@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -22,6 +23,7 @@ import com.technorapper.onboarding.data.data_model.BasicResult
 import com.technorapper.onboarding.databinding.ActivityRegisterBinding
 import com.technorapper.onboarding.domain.DataState
 import com.technorapper.onboarding.ui.onboarding.MainListStateEvent
+import com.technorapper.onboarding.ui.onboarding.MainScreen
 import com.technorapper.onboarding.ui.onboarding.OnBoardingViewModel
 import com.technorapper.root.extension.userDataStore
 import com.technorapper.root.proto.ProtoUserRepo
@@ -35,7 +37,7 @@ class RegisterFragment : BaseFragment() {
     private var userRepo: ProtoUserRepo? = null
     private var mAuth: FirebaseAuth? = null;
     private val viewModel by viewModels<OnBoardingViewModel>()
-    lateinit var binding: ActivityRegisterBinding
+    //lateinit var binding: ActivityRegisterBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,18 +53,22 @@ class RegisterFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.activity_register,
-            container,
-            false
-        )
-        binding.counter = 60.00
+        /* binding = DataBindingUtil.inflate(
+             inflater,
+             R.layout.activity_register,
+             container,
+             false
+         )
+         binding.counter = 60.00
 
-        binding.handler = ClickEvents()
-        setEvents();
-        binding.isOTPGenerated = false
-        return binding.root
+         binding.handler = ClickEvents()
+         setEvents();
+         binding.isOTPGenerated = false
+         return binding.root*/
+
+        return ComposeView(requireContext()).apply {
+            setContent { MainScreen(onBoardingViewModel = viewModel) }
+        }
     }
 
 
@@ -75,7 +81,8 @@ class RegisterFragment : BaseFragment() {
         userRepo = ProtoUserRepoImpl(requireContext().userDataStore)
         viewModel.InjectDep(userRepo!!)
         viewModel.pushContext(requireActivity())
-
+        viewModel.uiStateEventFirebase.observe(this, Observer { sendVerificationCode(it) })
+        viewModel.uiStateEventFirebaseOTP.observe(this, Observer { verifyCode(it) })
         viewModel.uiState.observe(this, Observer { parse(it) })
     }
 
@@ -148,8 +155,8 @@ class RegisterFragment : BaseFragment() {
 
 
                                             /**/
-                                        } else
-                                            binding.isOTPGenerated = false
+                                        }
+
 
                                     }
 
@@ -182,9 +189,10 @@ class RegisterFragment : BaseFragment() {
 
     }
 
-    private fun sendVerificationCode(number: String) {
+    private fun sendVerificationCode(phone: String) {
         // this method is used for getting
         // OTP on user phone number.
+        var number = "+91$phone"
         val options = PhoneAuthOptions.newBuilder(mAuth!!)
             .setPhoneNumber(number) // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
@@ -217,10 +225,7 @@ class RegisterFragment : BaseFragment() {
             } else if (e is FirebaseTooManyRequestsException) {
                 // The SMS quota for the project has been exceeded
             }
-            if (binding.isOTPGenerated)
-                binding.errorMessageOtp.text = e.message
-            else
-                binding.errorMessage.text = e.message
+
             // Show a message and update the UI
         }
 
@@ -235,7 +240,7 @@ class RegisterFragment : BaseFragment() {
 
             // Save verification ID and resending token so we can use them later
             storedVerificationId = verificationId
-            binding.isOTPGenerated = true
+
             // resendToken = token
         }
     }

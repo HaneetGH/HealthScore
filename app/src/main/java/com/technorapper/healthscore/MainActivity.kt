@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        startActivity(Intent(this@MainActivity, LoginRootActivity::class.java))
+        startActivity(Intent(this@MainActivity, OnBoardingActivity::class.java))
         userRepo = ProtoUserRepoImpl(this.userDataStore)
         lifecycleScope.launch {
             userRepo?.saveUserID("false")

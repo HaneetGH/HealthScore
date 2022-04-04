@@ -14,6 +14,7 @@ import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
@@ -25,33 +26,41 @@ import androidx.constraintlayout.compose.Dimension
 
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.technorapper.onboarding.data.repository.onBoardingRepository
+import com.technorapper.onboarding.ui.onboarding.OnBoardingViewModel
+
+
 
 @Composable
-fun LoginCompose(navController: NavController) {
+fun LoginCompose(navController: NavController, onBoardingViewModel: OnBoardingViewModel) {
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val column = createRef()
+
 
         Column(
             Modifier
                 .background(MaterialTheme.colors.background)
                 .fillMaxSize()
         ) {
-            MessageInput()
+            MessageInput(onBoardingViewModel)
 
         }
     }
 }
 
 @Composable
-fun MessageInput(
+fun MessageInput(onBoardingViewModel: OnBoardingViewModel
 ) {
     var inputValue by remember { mutableStateOf("") } // 2
     var inputValue2 by remember { mutableStateOf("") } // 2
-    fun sendMessage() {
+    fun sendPhoneToFirebase() {
 
-        inputValue = ""
+        onBoardingViewModel.initFirebase(inputValue)
     }
+    fun sendOTPToFirebase() {
 
+        onBoardingViewModel.initFirebaseForOTP(inputValue2)
+    }
     Column {
         TextField(
             // 4
@@ -59,7 +68,7 @@ fun MessageInput(
             value = inputValue,
             onValueChange = { inputValue = it.toString() },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
-            keyboardActions = KeyboardActions { sendMessage() },
+
         )
 
         TextField(
@@ -67,13 +76,13 @@ fun MessageInput(
             value = inputValue2,
             onValueChange = { inputValue2 = it.toString() },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
-            keyboardActions = KeyboardActions { sendMessage() },
         )
+        Button(onClick = { sendPhoneToFirebase() }) {
+
+        }
+        Button(onClick = { sendOTPToFirebase() }) {
+
+        }
     }
 }
 
-@Preview
-@Composable
-fun DefaultPreview() {
-    LoginCompose(rememberNavController())
-}

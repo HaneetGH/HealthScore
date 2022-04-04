@@ -30,6 +30,13 @@ class OnBoardingViewModel : ViewModel() {
     var protoUserRepo: ProtoUserRepo? = null
 
     lateinit var useCases: FirebaseUseCases
+
+    private val _uiStateEventsFirebase: MutableLiveData<String> = MutableLiveData()
+    val uiStateEventFirebase: MutableLiveData<String> get() = _uiStateEventsFirebase
+
+    private val _uiStateEventsFirebaseOTP: MutableLiveData<String> = MutableLiveData()
+    val uiStateEventFirebaseOTP: MutableLiveData<String> get() = _uiStateEventsFirebaseOTP
+
     fun InjectDep(protoUserRepo: ProtoUserRepo) {
         this.protoUserRepo = protoUserRepo
     }
@@ -122,6 +129,14 @@ class OnBoardingViewModel : ViewModel() {
         datePickerDialog.show()
 
         return timeLiveData;
+    }
+
+    fun initFirebase(inputValue: String) {
+        uiStateEventFirebase.value = inputValue
+    }
+
+    fun initFirebaseForOTP(inputValue2: String) {
+        uiStateEventFirebaseOTP.value = inputValue2
     }
 }
 

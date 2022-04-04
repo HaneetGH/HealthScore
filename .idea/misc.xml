@@ -3,9 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/compose-model-1648666676156.xml" value="0.27702702702702703" />
+        <entry key="../../../../layout/compose-model-1648671517902.xml" value="0.25422297297297297" />
+        <entry key="../../../../layout/compose-model-1648828292171.xml" value="0.32728040540540543" />
+        <entry key="../../../../layout/compose-model-1648985738516.xml" value="0.33611111111111114" />
+        <entry key="../../../../layout/compose-model-1648987232739.xml" value="0.2816722972972973" />
+        <entry key="../../../../layout/compose-model-1649094871752.xml" value="0.2816722972972973" />
         <entry key="onboarding/src/main/res/layout/activity_date_login.xml" value="0.1671875" />
         <entry key="onboarding/src/main/res/layout/activity_register.xml" value="0.1671875" />
         <entry key="onboarding/src/main/res/layout/fragment_profile_register.xml" value="0.28802083333333334" />
+        <entry key="onboarding/src/main/res/layout/item_forecast.xml" value="0.15885416666666666" />
+        <entry key="onboarding/src/main/res/layout/item_hourly_forecast.xml" value="0.13489583333333333" />
         <entry key="onboarding/src/main/res/layout/list_activity.xml" value="0.1140625" />
         <entry key="onboarding/src/main/res/layout/list_items.xml" value="0.1671875" />
         <entry key="onboarding/src/main/res/layout/onboard_activity.xml" value="0.1421875" />
