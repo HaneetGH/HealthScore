@@ -43,7 +43,6 @@ fun LoginCompose(navController: NavController, onBoardingViewModel: OnBoardingVi
         }
     }
 }
-
 @Composable
 fun MessageInput(onBoardingViewModel: OnBoardingViewModel
 ) {
