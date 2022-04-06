@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.platform.ComposeView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -19,6 +20,7 @@ import com.technorapper.root.data.data_model.LocationTable
 import com.technorapper.root.databinding.FragmentRootBinding
 import com.technorapper.root.domain.DataState
 import com.technorapper.root.ui.MainActivity
+import com.technorapper.root.ui.compose.RootCompose
 import com.technorapper.root.ui.list.ListActivityViewModel
 import com.technorapper.root.ui.list.MainListStateEvent
 import com.technorapper.root.ui.list.adapter.ListAdapter
@@ -29,7 +31,6 @@ class ListFragment : BaseFragment() {
 
 
     private val viewModel by viewModels<ListActivityViewModel>()
-    lateinit var binding: FragmentRootBinding
     lateinit var listAdapter: ListAdapter;
     private val listOfLocations: ArrayList<LocationTable> = ArrayList()
 
@@ -45,18 +46,12 @@ class ListFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_root,
-            container,
-            false
-        )
-        binding.counter = 60.00
 
-        binding.handler = ClickEvents()
         setEvents();
         setAdapter();
-        return binding.root
+        return ComposeView(requireContext()).apply {
+            setContent { RootCompose(viewModel) }
+        }
     }
 
     private fun setAdapter() {
@@ -78,7 +73,6 @@ class ListFragment : BaseFragment() {
 
 
         }
-        binding.adapter = listAdapter
     }
 
     private fun setEvents() {
@@ -110,8 +104,7 @@ class ListFragment : BaseFragment() {
                                     val value = it.data as List<LocationTable>
                                     if (value.isNotEmpty())
                                         setData(value)
-                                    else
-                                        binding.isListHere = false
+
                                     Log.d("Api Response", value.toString())
                                 } catch (e: Exception) {
 
@@ -142,7 +135,7 @@ class ListFragment : BaseFragment() {
     }
 
     fun setData(locationTable: List<LocationTable>) {
-        binding.isListHere = true
+
         val diffCallback = ListDiffCallback(listOfLocations, locationTable)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         listOfLocations.clear()
