@@ -17,7 +17,6 @@ import com.technorapper.root.base.BaseFragment
 import com.technorapper.root.constant.Task
 import com.technorapper.root.data.data_model.LocationTable
 
-import com.technorapper.root.databinding.FragmentRootBinding
 import com.technorapper.root.domain.DataState
 import com.technorapper.root.ui.MainActivity
 import com.technorapper.root.ui.compose.RootCompose
