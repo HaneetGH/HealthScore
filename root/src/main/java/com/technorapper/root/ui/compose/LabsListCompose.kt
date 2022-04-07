@@ -46,13 +46,13 @@ fun LabsListCompose(
         ) {
             val uiStateLabList by listActivityViewModel.uiStateLabList.observeAsState()
             if (uiStateLabList != null)
-                printUserChat(uiStateLabList!!, modifier = Modifier.weight(1f))
+                printUserChat(uiStateLabList!!)
         }
     }
 }
 
 @Composable
-fun printUserChat(user: List<Lab>, modifier: Modifier) {
+fun printUserChat(user: List<Lab>) {
     // val context = LocalContext.current
     listOfLabs = remember {
         mutableStateListOf()
@@ -61,7 +61,6 @@ fun printUserChat(user: List<Lab>, modifier: Modifier) {
     listOfLabs.addAll(user)
 
     LazyColumn(
-        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(6.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -77,8 +76,8 @@ fun LabCell(messageItem: Lab) { // 1
             .padding(horizontal = 8.dp, vertical = 4.dp),
     ) {
         Card(
-            modifier = Modifier.widthIn(max = 340.dp),
-            shape = cardShapeFor(messageItem.labName), // 3
+
+            shape = cardShapeFor(), // 3
             backgroundColor =
             Color(0XFF2f3e45),
         ) {
@@ -95,9 +94,9 @@ fun LabCell(messageItem: Lab) { // 1
 }
 
 @Composable
-fun cardShapeFor(user: String): Shape {
-    val roundedCorners = RoundedCornerShape(16.dp)
-    return roundedCorners.copy(bottomStart = CornerSize(0))
+fun cardShapeFor(): Shape {
+    val roundedCorners = RoundedCornerShape(6.dp)
+    return roundedCorners.copy()
 }
 
 class LabInfoFromList(lab: List<Lab>) {
