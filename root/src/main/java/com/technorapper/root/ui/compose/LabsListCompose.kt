@@ -1,5 +1,6 @@
 package com.technorapper.root.ui.compose
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -7,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -16,6 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -69,26 +73,55 @@ fun printUserChat(user: List<Lab>) {
 }
 
 @Composable
-fun LabCell(messageItem: Lab) { // 1
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 4.dp),
+fun LabCell(labObj: Lab) { // 1
+    Box(
+        modifier = Modifier.background(Color.Blue)
     ) {
-        Card(
+        Column {
+            Row(
 
-            shape = cardShapeFor(), // 3
-            backgroundColor =
-            Color(0XFF2f3e45),
-        ) {
-            Text(
-                modifier = Modifier.padding(8.dp),
-                text = messageItem.labName,
-                color =
-                Color.White
+                modifier = Modifier.padding(10.dp).fillMaxWidth(), horizontalArrangement = Arrangement.Center
+            ) {
 
-            )
+                /*AsyncImage(
+
+                 load = {
+                     loadSvgPainter(
+                         user.imageUrl, density = density
+                     )
+                 },
+                 painterFor = { it },
+                 contentDescription = "Idea logo",
+                 contentScale = ContentScale.FillWidth,
+                 modifier = Modifier.width(50.dp)
+             )*/
+
+                Column(
+                    modifier = Modifier.padding(all = 8.dp).fillMaxWidth(),
+
+                    ) {
+                    Text(
+                        text = labObj.labName,
+                        style = MaterialTheme.typography.subtitle2,
+                        color = Color.White,
+                        fontSize = 16.sp
+                    )
+                    Box(modifier = Modifier.padding(top = 3.dp)) {
+                        Text(
+
+                            text = labObj.labContactPerson,
+                            style = MaterialTheme.typography.subtitle2,
+                            color = Color(0xFFebe8e8),
+                            fontSize = 12.sp
+                        )
+                    }
+
+                }
+
+            }
+            Divider(color = Color.White, thickness = 1.dp, modifier = Modifier.padding(start = 8.dp, end = 8.dp))
         }
+
 
     }
 }
