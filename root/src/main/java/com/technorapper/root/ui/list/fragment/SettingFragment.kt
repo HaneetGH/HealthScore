@@ -41,9 +41,7 @@ class SettingFragment : BaseFragment() {
 
         binding.handler = ClickEvents()
         binding.swich.setOnCheckedChangeListener { compoundButton, b ->
-            viewModel.setStateEvent(
-                MainListStateEvent.UpdateUnit(b)
-            )
+
         }
         return binding.root
     }
@@ -54,7 +52,7 @@ class SettingFragment : BaseFragment() {
     }
 
     override fun attachViewModel() {
-        viewModel.setStateEvent(MainListStateEvent.FetchDefault)
+
         viewModel.uiState.observe(this, Observer { parse(it) })
     }
 

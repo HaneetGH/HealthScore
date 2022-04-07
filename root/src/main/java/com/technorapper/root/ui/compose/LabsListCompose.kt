@@ -9,9 +9,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,12 +21,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
+import com.technorapper.root.data.data_model.lablist.Lab
 import com.technorapper.root.ui.list.ListActivityViewModel
 
-lateinit var notesList: SnapshotStateList<String>
+lateinit var listOfLabs: SnapshotStateList<Lab>
 
 @Composable
-fun LabsListCompose(navController: NavController, listActivityViewModel: ListActivityViewModel) {
+fun LabsListCompose(
+    navController: NavController,
+    listActivityViewModel: ListActivityViewModel
+) {
+
+
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val column = createRef()
 
@@ -39,47 +44,47 @@ fun LabsListCompose(navController: NavController, listActivityViewModel: ListAct
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-
-            printUserChat(
-                listOf("Haneet", "Katto", "Milan", "Deepak"),
-                modifier = Modifier.weight(1f)
-            )
+            val uiStateLabList by listActivityViewModel.uiStateLabList.observeAsState()
+            if (uiStateLabList != null)
+                printUserChat(uiStateLabList!!, modifier = Modifier.weight(1f))
         }
     }
 }
 
 @Composable
-fun printUserChat(user: List<String>, modifier: Modifier) {
+fun printUserChat(user: List<Lab>, modifier: Modifier) {
     // val context = LocalContext.current
-    notesList = remember {
+    listOfLabs = remember {
         mutableStateListOf()
     }
-    notesList.clear()
-    notesList.addAll(user)
+    listOfLabs.clear()
+    listOfLabs.addAll(user)
 
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(6.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        items(notesList) { lab -> LabCell(lab) }
+        items(user) { lab -> LabCell(lab) }
     }
 }
 
 @Composable
-fun LabCell(messageItem: String) { // 1
+fun LabCell(messageItem: Lab) { // 1
     Column(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 4.dp),
     ) {
         Card(
             modifier = Modifier.widthIn(max = 340.dp),
-            shape = cardShapeFor(messageItem), // 3
+            shape = cardShapeFor(messageItem.labName), // 3
             backgroundColor =
             Color(0XFF2f3e45),
         ) {
             Text(
                 modifier = Modifier.padding(8.dp),
-                text = messageItem,
+                text = messageItem.labName,
                 color =
                 Color.White
 
@@ -93,4 +98,8 @@ fun LabCell(messageItem: String) { // 1
 fun cardShapeFor(user: String): Shape {
     val roundedCorners = RoundedCornerShape(16.dp)
     return roundedCorners.copy(bottomStart = CornerSize(0))
+}
+
+class LabInfoFromList(lab: List<Lab>) {
+    var lab by mutableStateOf(lab)
 }

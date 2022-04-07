@@ -23,9 +23,7 @@
             name="progressCircular"
             type="boolean" />
 
-        <variable
-            name="adapter"
-            type="com.technorapper.root.ui.list.adapter.ListAdapter" />
+
 
 
         <variable
@@ -39,7 +37,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/slotLit"
-            adapter="@{adapter}"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 

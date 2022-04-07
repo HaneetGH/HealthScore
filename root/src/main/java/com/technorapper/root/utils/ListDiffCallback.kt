@@ -3,10 +3,11 @@ package com.technorapper.root.utils
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.DiffUtil
 import com.technorapper.root.data.data_model.LocationTable
+import com.technorapper.root.data.data_model.lablist.Lab
 
 class ListDiffCallback(
-    private val oldList: List<LocationTable>,
-    private val newList: List<LocationTable>
+    private val oldList: List<Lab>,
+    private val newList: List<Lab>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int = oldList.size
@@ -14,7 +15,7 @@ class ListDiffCallback(
     override fun getNewListSize(): Int = newList.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].id === newList.get(newItemPosition).id
+        return oldList[oldItemPosition].labId === newList.get(newItemPosition).labId
     }
 
     override fun areContentsTheSame(oldPosition: Int, newPosition: Int): Boolean {

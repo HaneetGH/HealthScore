@@ -129,71 +129,7 @@ class MainActivity : BaseClass() {
                     hideLoader()
                     if (it?.data != null) {
                         when (it.task) {
-                            Task.FETCH_WEATHER -> {
-                                try {
-                                    val response = it.data as WeatherForecastResponse
-                                    var min = 0.0
-                                    var max = 0.0
-                                    hideLoader()
-                                    if (response != null) {
-                                        dataList.clear()
-                                        hourlyData.clear()
-                                        binding.model = response
-                                        dataList.addAll(response.daily)
-                                        hourlyData.addAll(response.hourly)
 
-                                        setAdapter(response.daily)
-                                        // forecastListAdapter.notifyDataSetChanged()
-                                        hourlyForecastAdapter.notifyDataSetChanged()
-
-                                        min = response.daily[0].temp.min
-
-                                        for (dailyItem in response.daily) {
-                                            if (dailyItem.temp.max > max) {
-                                                max = dailyItem.temp.max
-                                            }
-                                            if (min > dailyItem.temp.min) {
-                                                min = dailyItem.temp.min
-                                            }
-                                        }
-                                    }
-                                    if (response.current?.weather != null && response.current.weather.size > 0) {
-                                        binding.weatherDesc =
-                                            "${response.current.weather[0].main} ${max.toInt()}/${min.toInt()}\u2103"
-
-                                        when (firstDigit(response.current.weather[0].id)) {
-                                            2 -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.thunder)
-                                            }
-                                            3 -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.bg1)
-                                            }
-                                            5 -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.rain_bg)
-                                            }
-                                            6 -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.bg1)
-                                            }
-                                            7 -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.bg1)
-                                            }
-                                            8 -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.cloud_bg)
-                                            }
-                                            800 -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.clear_sky)
-                                            }
-                                            else -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.bg1)
-                                            }
-
-                                        }
-                                    }
-
-                                } catch (e: Exception) {
-
-                                }
-                            }
 
                         }
 

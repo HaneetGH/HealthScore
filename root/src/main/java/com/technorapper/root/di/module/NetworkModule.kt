@@ -1,6 +1,6 @@
 package com.technorapper.root.di.module
 
-import com.technorapper.root.data.WeatherApi
+import com.technorapper.root.data.RootApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,16 +17,16 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
+    private const val BASE_URL = "https://us-central1-healthscore-4fcdf.cloudfunctions.net/"
 
     @Provides
     @Singleton
-    fun provideApiService(okHttpClient: OkHttpClient): WeatherApi {
+    fun provideApiService(okHttpClient: OkHttpClient): RootApi {
         return Retrofit.Builder().baseUrl(BASE_URL)
             /* .addConverterFactory(MoshiConverterFactory.create())*/
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
-            .build().create(WeatherApi::class.java)
+            .build().create(RootApi::class.java)
 
     }
 
