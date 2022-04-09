@@ -6,6 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.viewModels
@@ -22,6 +25,7 @@ import com.technorapper.root.ui.compose.RootCompose
 import com.technorapper.root.ui.list.ListActivityViewModel
 import com.technorapper.root.ui.list.MainListStateEvent
 import com.technorapper.root.ui.location.LocationFetchFromMapActivity
+import com.technorapper.root.ui.theme.AppTheme
 import com.technorapper.root.utils.ListDiffCallback
 
 class ListFragment : BaseFragment() {
@@ -37,6 +41,7 @@ class ListFragment : BaseFragment() {
     }
 
 
+    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,10 +50,25 @@ class ListFragment : BaseFragment() {
 
         setEvents();
         return ComposeView(requireContext()).apply {
-            setContent { RootCompose(viewModel) }
+            setContent {
+                val scaffoldState = rememberScaffoldState()
+                AppTheme(
+                    displayProgressBar = false,
+                    scaffoldState = scaffoldState,
+                    darkTheme = false,
+                ) {
+                    Scaffold(
+                        scaffoldState = scaffoldState,
+                        snackbarHost = {
+                            scaffoldState.snackbarHostState
+                        }
+                    ) {
+                        RootCompose(viewModel)
+                    }
+                }
+            }
         }
     }
-
 
 
     private fun setEvents() {
@@ -109,8 +129,6 @@ class ListFragment : BaseFragment() {
 
 
     }
-
-
 
 
     inner class ClickEvents() {

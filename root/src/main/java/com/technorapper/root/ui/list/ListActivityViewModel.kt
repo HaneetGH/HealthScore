@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 import javax.inject.Inject
-
+const val PAGE_SIZE = 30
 @HiltViewModel
 class ListActivityViewModel @Inject constructor(
     private val repository: ListActivityRepository,
