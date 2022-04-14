@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface RootApi {
 
-    @POST("getAllLabs")
+    @GET("api/v1/getAllLabs")
     suspend fun getAllLabs(
         @Query("idToken") idToken: String,
         @Query("uid") uid: String

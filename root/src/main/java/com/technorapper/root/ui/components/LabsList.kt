@@ -41,6 +41,7 @@ fun LabsList(
                     RecipeCard(
                         lab = recipe,
                         onClick = {
+
                         }
                     )
                 }
