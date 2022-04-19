@@ -25,6 +25,7 @@ interface OnBoardApi {
         @Query("uid") uid: String
     ): BasicResult
 
+
     @GET("api/v1/isProfileThere")
     suspend fun isProfileThere(
         @Query("uid") userID: String,
