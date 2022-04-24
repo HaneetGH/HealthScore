@@ -25,6 +25,7 @@ import com.technorapper.onboarding.domain.DataState
 import com.technorapper.onboarding.ui.onboarding.MainListStateEvent
 import com.technorapper.onboarding.ui.onboarding.MainScreen
 import com.technorapper.onboarding.ui.onboarding.OnBoardingViewModel
+import com.technorapper.onboarding.ui.onboarding.compose.isOtpVisible
 import com.technorapper.root.extension.userDataStore
 import com.technorapper.root.proto.ProtoUserRepo
 import com.technorapper.root.proto.ProtoUserRepoImpl
@@ -219,7 +220,7 @@ class RegisterFragment : BaseFragment() {
             // This callback is invoked in an invalid request for verification is made,
             // for instance if the the phone number format is not valid.
             Log.w(ContentValues.TAG, "onVerificationFailed", e)
-
+            isOtpVisible.isOtpVisible = false
             if (e is FirebaseAuthInvalidCredentialsException) {
                 // Invalid request
             } else if (e is FirebaseTooManyRequestsException) {
@@ -240,7 +241,7 @@ class RegisterFragment : BaseFragment() {
 
             // Save verification ID and resending token so we can use them later
             storedVerificationId = verificationId
-
+            isOtpVisible.isOtpVisible = true
             // resendToken = token
         }
     }
