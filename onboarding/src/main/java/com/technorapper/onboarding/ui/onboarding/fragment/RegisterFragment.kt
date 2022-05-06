@@ -139,16 +139,7 @@ class RegisterFragment : BaseFragment() {
                                                         viewModel.saveTokenId(
                                                             token = token
                                                         )
-
                                                         viewModel.setStateEvent(MainListStateEvent.IsProfileAvail)
-                                                        /*mAuth!!.signInWithCustomToken("eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImlhdCI6MTY0NzQ1OTkwOCwiZXhwIjoxNjQ3NDYzNTA4LCJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay1xaG1nM0BoZWFsdGhzY29yZS00ZmNkZi5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsInN1YiI6ImZpcmViYXNlLWFkbWluc2RrLXFobWczQGhlYWx0aHNjb3JlLTRmY2RmLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwidWlkIjoiaFEzdGR5RmZSV2RTUlVEM2pTVG1QbzZKcEh1MSJ9.KsZ3tY2A0c1YWQS7HJLZK2F3-D6yJXdu_4_0E1kUjjIdXlpBDacOq8CQYemZ0Q3TVP09BzS6l7lil94j7ag2z4NUBgb-abzXm51ziLdTWd2S61asO-OWVoMST5lUNqOqmQIvJKmjgKQedAFlhkoEglYah-4334_NhVcLOecmRaWG-tX5gr3bXI6x4cz9gnHTswxFWuwz7hmLMyPfTjthM-_ZwRI_i9RGC-By6L_YnSVLVvIi2iK8HFeFSfbNwA5KshPJtVjinLAet_vG9cIDT1RWs4ceO9tZVB6UtOZPzcu0sW1Tpm1hzyXvpSkoH5P-dKUgkwhj_9z6GpZmB2X2CQ")
-                                                            .addOnCompleteListener {
-
-                                                                Log.d("user", it.toString())
-                                                            }.addOnFailureListener {
-
-                                                                Log.d("user fail", it.toString())
-                                                            }*/
 
                                                     }
                                                 }
