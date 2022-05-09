@@ -52,7 +52,7 @@ class ListFragment : BaseFragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 val scaffoldState = rememberScaffoldState()
-                AppTheme(
+                 AppTheme(
                     displayProgressBar = false,
                     scaffoldState = scaffoldState,
                     darkTheme = false,
