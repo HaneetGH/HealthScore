@@ -14,12 +14,13 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import com.technorapper.root.data.data_model.lablist.Lab
 import com.technorapper.root.ui.components.Alerts
-import com.technorapper.root.ui.components.CustomAlertDialog
+
 import com.technorapper.root.ui.components.LabsList
 
 import com.technorapper.root.ui.list.ListActivityViewModel
 
-lateinit var listOfLabs: SnapshotStateList<Lab>
+lateinit var dialogForLab: DialogForLab
+var isDialogShow = false
 
 @ExperimentalMaterialApi
 @Composable
@@ -27,8 +28,10 @@ fun LabsListCompose(
     navController: NavController,
     listActivityViewModel: ListActivityViewModel
 ) {
-
-
+    dialogForLab = remember { DialogForLab(Lab("", "", "", "", ""), false) }
+    if (dialogForLab.isShow) {
+        showDialogForSelectedLab(dialogForLab.lab)
+    }
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val column = createRef()
 
@@ -43,19 +46,22 @@ fun LabsListCompose(
             val uiStateLabList by listActivityViewModel.uiStateLabList.observeAsState()
             if (uiStateLabList != null)
                 LabsList(true, uiStateLabList!!) { lab ->
-                    showDialogForSelectedLab(lab)
+                    dialogForLab.lab = lab
+                    dialogForLab.isShow = true
                 }
         }
     }
 }
+
 @Composable
 @ExperimentalMaterialApi
 fun showDialogForSelectedLab(lab: Lab) {
     Alerts.CustomAlertDialog(value = lab) {
-        Log.d("meme", it.toString());
+        dialogForLab.isShow = false
     }
 }
 
-class LabInfoFromList(lab: List<Lab>) {
+class DialogForLab(lab: Lab, isShow: Boolean) {
     var lab by mutableStateOf(lab)
+    var isShow by mutableStateOf(isShow)
 }

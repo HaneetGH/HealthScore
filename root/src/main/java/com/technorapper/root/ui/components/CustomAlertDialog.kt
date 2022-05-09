@@ -33,11 +33,11 @@ import com.technorapper.root.data.data_model.lablist.Lab
 class Alerts {
     companion object {
         @Composable
-        fun CustomAlertDialog(value: Lab, setShowDialog: (Boolean) -> Unit) {
+        fun CustomAlertDialog(value: Lab, setShowDialog: (String) -> Unit) {
 
             val txtFieldError = remember { mutableStateOf("") }
             val txtField = remember { mutableStateOf(value.labName) }
-            Dialog(onDismissRequest = { setShowDialog(false) }) {
+            Dialog(onDismissRequest = { setShowDialog("close") }) {
                 Surface(
                     shape = RoundedCornerShape(16.dp),
                     color = Color.White
@@ -67,7 +67,7 @@ class Alerts {
                                     modifier = Modifier
                                         .width(30.dp)
                                         .height(30.dp)
-                                        .clickable { setShowDialog(false) }
+                                        .clickable { setShowDialog("close") }
                                 )
                             }
 
@@ -114,8 +114,9 @@ class Alerts {
                                             txtFieldError.value = "Field can not be empty"
                                             return@Button
                                         }
+
                                         //setValue(txtField.value)
-                                        setShowDialog(false)
+                                        setShowDialog(txtField.value)
                                     },
                                     shape = RoundedCornerShape(50.dp),
                                     modifier = Modifier

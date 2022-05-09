@@ -1,5 +1,6 @@
 package com.technorapper.root.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,25 +19,28 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @Composable
 fun LabsList(
     loading: Boolean,
-    recipes: List<Lab>,
+    Labs: List<Lab>,
     onClick: (Lab) -> Unit,
 ) {
     Box(
         modifier = Modifier
             .background(color = MaterialTheme.colors.surface)
     ) {
-        if (loading && recipes.isEmpty()) {
+        if (loading && Labs.isEmpty()) {
             HorizontalDottedProgressBar()
-        } else if (recipes.isEmpty()) {
+        } else if (Labs.isEmpty()) {
             NothingHere()
         } else {
             LazyColumn {
                 itemsIndexed(
-                    items = recipes
-                ) { _, recipe ->
+                    items = Labs
+                ) { _, labItem ->
                     RecipeCard(
-                        lab = recipe,
-                        onClick = { onClick.invoke(recipe) }
+                        lab = labItem,
+                        onClick = { onClick.invoke(labItem)
+
+
+                        }
                     )
                 }
             }
