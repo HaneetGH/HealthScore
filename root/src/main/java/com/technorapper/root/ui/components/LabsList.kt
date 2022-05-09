@@ -19,10 +19,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 fun LabsList(
     loading: Boolean,
     recipes: List<Lab>,
-    /*onChangeScrollPosition: (Int) -> Unit,*/
-    /*page: Int,
-    onTriggerNextPage: () -> Unit,*/
-    nav: NavController,
+    onClick: (Lab) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -30,19 +27,16 @@ fun LabsList(
     ) {
         if (loading && recipes.isEmpty()) {
             HorizontalDottedProgressBar()
-//            LoadingRecipeListShimmer(imageHeight = 250.dp,)
         } else if (recipes.isEmpty()) {
             NothingHere()
         } else {
             LazyColumn {
                 itemsIndexed(
                     items = recipes
-                ) { index, recipe ->
+                ) { _, recipe ->
                     RecipeCard(
                         lab = recipe,
-                        onClick = {
-
-                        }
+                        onClick = { onClick.invoke(recipe) }
                     )
                 }
             }
