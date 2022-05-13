@@ -114,8 +114,6 @@ class Alerts {
                                             txtFieldError.value = "Field can not be empty"
                                             return@Button
                                         }
-
-                                        //setValue(txtField.value)
                                         setShowDialog(txtField.value)
                                     },
                                     shape = RoundedCornerShape(50.dp),
