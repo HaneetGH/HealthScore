@@ -2,10 +2,9 @@ package com.technorapper.root.ui.components
 
 import android.R
 import android.annotation.SuppressLint
-import androidx.compose.compiler.plugins.kotlin.ComposeFqNames.remember
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.animation.AnimatedVisibility
+
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -126,6 +126,34 @@ class Alerts {
                             }
                         }
                     }
+                }
+            }
+        }
+
+
+        @Composable
+        fun printtext() {
+
+            Text(text = "test", Modifier.background(color = Color.Blue))
+        }
+
+        @Preview(showSystemUi = true, showBackground = true)
+        @Composable
+        fun JetpackCompose() {
+            Card {
+                var expanded = remember { mutableStateOf(false) }
+                Column(Modifier.clickable { expanded.value = !expanded.component1() }) {
+                    Image(
+                        painter = painterResource(id = R.mipmap.sym_def_app_icon),
+                        contentDescription = "sample"
+                    )
+                    AnimatedVisibility(visible = expanded.component1()) {
+
+                    }
+                    Text(
+                        text = "Jetpack Compose",
+                        style = MaterialTheme.typography.h2,
+                    )
                 }
             }
         }
