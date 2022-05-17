@@ -136,7 +136,6 @@ class Alerts {
 
             Text(text = "test", Modifier.background(color = Color.Blue))
         }
-
         @Preview(showSystemUi = true, showBackground = true)
         @Composable
         fun JetpackCompose() {
