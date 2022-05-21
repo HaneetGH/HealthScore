@@ -35,7 +35,6 @@ class Alerts {
     companion object {
         @Composable
         fun CustomAlertDialog(value: Lab, setShowDialog: (String) -> Unit) {
-
             val txtFieldError = remember { mutableStateOf("") }
             val txtField = remember { mutableStateOf(value.labName) }
             Dialog(onDismissRequest = { setShowDialog("close") }) {
