@@ -31,13 +31,9 @@ class MainActivityViewModel @Inject constructor(
                         mainStateEvent.latLng
                     ).collect { uiState.value = it }
                 }
-
             }
-
         }
     }
-
-
 }
 
 sealed class MainStateEvent {
