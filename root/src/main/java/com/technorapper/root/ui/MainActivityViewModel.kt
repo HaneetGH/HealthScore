@@ -35,7 +35,6 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 }
-
 sealed class MainStateEvent {
 
     data class FetchWeather(var latLng: LatLng) : MainStateEvent()
