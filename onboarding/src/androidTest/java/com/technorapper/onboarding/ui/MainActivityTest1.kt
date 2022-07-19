@@ -1,24 +1,14 @@
 package com.technorapper.onboarding.ui
 
-import android.content.Context
 import android.content.Intent
-import android.view.View
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.UiController
-import androidx.test.espresso.ViewAction
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
-import com.android.dx.command.Main
 import com.technorapper.onboarding.R
-import junit.framework.TestCase
 import org.hamcrest.Matchers.not
-import org.junit.Assert
 import org.junit.FixMethodOrder
 import org.junit.Rule
 import org.junit.Test

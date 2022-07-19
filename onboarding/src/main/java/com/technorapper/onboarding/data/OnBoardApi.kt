@@ -2,11 +2,6 @@ package com.technorapper.onboarding.data
 
 
 import com.technorapper.onboarding.data.data_model.BasicResult
-import com.technorapper.onboarding.data.data_model.weather.WeatherForecastResponse
-import org.json.JSONObject
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query

@@ -1,11 +1,9 @@
 package com.technorapper.root.extension
 
-import android.app.Activity
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import com.technorapper.root.UserStore
-
 import com.technorapper.root.proto.UserStoreSerializer
 
 private const val USER_PREFERENCES_NAME = "user_preferences"

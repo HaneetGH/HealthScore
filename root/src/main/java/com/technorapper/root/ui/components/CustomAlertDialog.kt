@@ -1,9 +1,7 @@
 package com.technorapper.root.ui.components
 
 import android.R
-import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
-
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape

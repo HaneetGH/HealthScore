@@ -7,18 +7,14 @@ import androidx.databinding.ObservableBoolean
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.technorapper.onboarding.R
 import com.technorapper.onboarding.data.repository.onBoardingRepository
 import com.technorapper.onboarding.data.usecases.FirebaseUseCases
 import com.technorapper.onboarding.domain.DataState
 import com.technorapper.root.proto.ProtoUserRepo
-import kotlinx.coroutines.Dispatchers
-
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
 
 

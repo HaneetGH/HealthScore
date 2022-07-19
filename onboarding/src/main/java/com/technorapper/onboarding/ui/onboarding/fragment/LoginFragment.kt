@@ -9,16 +9,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
-
-
 import com.technorapper.onboarding.R
 import com.technorapper.onboarding.base.BaseFragment
 import com.technorapper.onboarding.constant.Task
 import com.technorapper.onboarding.data.data_model.LocationTable
 import com.technorapper.onboarding.databinding.ActivityDateLoginBinding
 import com.technorapper.onboarding.domain.DataState
-import com.technorapper.onboarding.ui.onboarding.MainListStateEvent
 import com.technorapper.onboarding.ui.onboarding.OnBoardingViewModel
 
 class LoginFragment : BaseFragment() {

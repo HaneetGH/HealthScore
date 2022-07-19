@@ -1,13 +1,11 @@
 package com.technorapper.root.data.room.database
 
+
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.technorapper.root.data.data_model.LocationTable
-import com.technorapper.root.data.room.database.dao.*
-
-
-
+import com.technorapper.root.data.room.database.dao.LocationDao
 import com.technorapper.root.data.room.database.migration.Migration1To2
 import com.technorapper.root.utils.RoomConverters
 

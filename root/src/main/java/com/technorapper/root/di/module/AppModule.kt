@@ -1,6 +1,5 @@
 package com.technorapper.root.di.module
 
-import android.app.Activity
 import android.content.Context
 import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
@@ -9,7 +8,6 @@ import com.technorapper.root.proto.ProtoUserRepo
 import com.technorapper.root.proto.ProtoUserRepoImpl
 import dagger.Module
 import dagger.Provides
-
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent

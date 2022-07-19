@@ -8,9 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.technorapper.root.data.data_model.LocationTable
 import com.technorapper.root.data.data_model.lablist.Lab
-
 import com.technorapper.root.data.repository.ListActivityRepository
 import com.technorapper.root.domain.DataState
 import com.technorapper.root.proto.ProtoUserRepo
@@ -19,8 +17,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
 import javax.inject.Inject
+
 const val PAGE_SIZE = 30
 @HiltViewModel
 class ListActivityViewModel @Inject constructor(
