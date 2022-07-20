@@ -9,20 +9,17 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.google.android.gms.maps.model.LatLng
+import com.squareup.picasso.Picasso
 import com.technorapper.root.R
 import com.technorapper.root.base.BaseClass
-import com.technorapper.root.constant.Task
 import com.technorapper.root.data.data_model.weather.DailyItem
 import com.technorapper.root.data.data_model.weather.HourlyItem
-import com.technorapper.root.data.data_model.weather.WeatherForecastResponse
 import com.technorapper.root.databinding.ActivityMainBinding
 import com.technorapper.root.domain.DataState
 import com.technorapper.root.interfaces.RecyclerViewClickListener
 import com.technorapper.root.ui.adapter.ForecastListAdapter
 import com.technorapper.root.ui.adapter.HourlyForecastAdapter
-import com.squareup.picasso.Picasso
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MainActivity : BaseClass() {

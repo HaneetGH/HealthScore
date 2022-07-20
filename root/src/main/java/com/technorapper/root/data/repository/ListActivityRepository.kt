@@ -5,7 +5,6 @@ import android.content.Context
 import android.util.Log
 import com.technorapper.root.constant.Task
 import com.technorapper.root.data.RootApi
-import com.technorapper.root.data.data_model.LocationTable
 import com.technorapper.root.data.room.database.dao.LocationDao
 import com.technorapper.root.domain.DataState
 import com.technorapper.root.proto.ProtoUserRepo

@@ -2,7 +2,6 @@ package com.technorapper.root.utils
 
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.DiffUtil
-import com.technorapper.root.data.data_model.LocationTable
 import com.technorapper.root.data.data_model.lablist.Lab
 
 class ListDiffCallback(

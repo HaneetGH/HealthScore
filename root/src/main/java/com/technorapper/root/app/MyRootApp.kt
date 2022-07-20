@@ -2,7 +2,6 @@ package com.technorapper.root.app
 
 
 import android.app.Application
-import android.view.View.X
 import dagger.hilt.android.HiltAndroidApp
 
 

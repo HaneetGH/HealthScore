@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.squareup.picasso.Picasso
 import com.technorapper.root.R
 import com.technorapper.root.data.data_model.weather.HourlyItem
 import com.technorapper.root.databinding.ItemHourlyForecastBinding
 import com.technorapper.root.interfaces.RecyclerViewClickListener
-import com.squareup.picasso.Picasso
 
 
 class HourlyForecastAdapter(
