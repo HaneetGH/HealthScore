@@ -31,15 +31,9 @@ class RegisterProfileFragment : BaseFragment() {
     private var mAuth: FirebaseAuth? = null;
     private val viewModel by viewModels<OnBoardingViewModel>()
     lateinit var binding: FragmentProfileRegisterBinding
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
     }
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
