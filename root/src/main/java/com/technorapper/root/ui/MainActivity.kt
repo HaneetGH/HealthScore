@@ -9,20 +9,17 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.google.android.gms.maps.model.LatLng
+import com.squareup.picasso.Picasso
 import com.technorapper.root.R
 import com.technorapper.root.base.BaseClass
-import com.technorapper.root.constant.Task
 import com.technorapper.root.data.data_model.weather.DailyItem
 import com.technorapper.root.data.data_model.weather.HourlyItem
-import com.technorapper.root.data.data_model.weather.WeatherForecastResponse
 import com.technorapper.root.databinding.ActivityMainBinding
 import com.technorapper.root.domain.DataState
 import com.technorapper.root.interfaces.RecyclerViewClickListener
 import com.technorapper.root.ui.adapter.ForecastListAdapter
 import com.technorapper.root.ui.adapter.HourlyForecastAdapter
-import com.squareup.picasso.Picasso
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MainActivity : BaseClass() {
@@ -129,71 +126,7 @@ class MainActivity : BaseClass() {
                     hideLoader()
                     if (it?.data != null) {
                         when (it.task) {
-                            Task.FETCH_WEATHER -> {
-                                try {
-                                    val response = it.data as WeatherForecastResponse
-                                    var min = 0.0
-                                    var max = 0.0
-                                    hideLoader()
-                                    if (response != null) {
-                                        dataList.clear()
-                                        hourlyData.clear()
-                                        binding.model = response
-                                        dataList.addAll(response.daily)
-                                        hourlyData.addAll(response.hourly)
 
-                                        setAdapter(response.daily)
-                                        // forecastListAdapter.notifyDataSetChanged()
-                                        hourlyForecastAdapter.notifyDataSetChanged()
-
-                                        min = response.daily[0].temp.min
-
-                                        for (dailyItem in response.daily) {
-                                            if (dailyItem.temp.max > max) {
-                                                max = dailyItem.temp.max
-                                            }
-                                            if (min > dailyItem.temp.min) {
-                                                min = dailyItem.temp.min
-                                            }
-                                        }
-                                    }
-                                    if (response.current?.weather != null && response.current.weather.size > 0) {
-                                        binding.weatherDesc =
-                                            "${response.current.weather[0].main} ${max.toInt()}/${min.toInt()}\u2103"
-
-                                        when (firstDigit(response.current.weather[0].id)) {
-                                            2 -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.thunder)
-                                            }
-                                            3 -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.bg1)
-                                            }
-                                            5 -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.rain_bg)
-                                            }
-                                            6 -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.bg1)
-                                            }
-                                            7 -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.bg1)
-                                            }
-                                            8 -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.cloud_bg)
-                                            }
-                                            800 -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.clear_sky)
-                                            }
-                                            else -> {
-                                                binding.coordinatorLayout.setBackgroundResource(R.drawable.bg1)
-                                            }
-
-                                        }
-                                    }
-
-                                } catch (e: Exception) {
-
-                                }
-                            }
 
                         }
 

@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val repository: MainActivityRepository
@@ -31,15 +30,10 @@ class MainActivityViewModel @Inject constructor(
                         mainStateEvent.latLng
                     ).collect { uiState.value = it }
                 }
-
             }
-
         }
     }
-
-
 }
-
 sealed class MainStateEvent {
 
     data class FetchWeather(var latLng: LatLng) : MainStateEvent()

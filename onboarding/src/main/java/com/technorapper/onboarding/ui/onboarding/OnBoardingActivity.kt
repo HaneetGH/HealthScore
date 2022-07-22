@@ -2,15 +2,12 @@ package com.technorapper.onboarding.ui.onboarding
 
 import android.util.Log
 import androidx.activity.viewModels
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-
 import com.technorapper.onboarding.R
 import com.technorapper.onboarding.base.BaseClass
 import com.technorapper.onboarding.databinding.OnboardActivityBinding
 import com.technorapper.root.extension.userDataStore
-
 import com.technorapper.root.proto.ProtoUserRepo
 import com.technorapper.root.proto.ProtoUserRepoImpl
 import kotlinx.coroutines.Dispatchers

@@ -1,7 +1,6 @@
 package com.technorapper.onboarding.data.data_model.weather
 
 import com.google.gson.annotations.SerializedName
-import com.technorapper.onboarding.data.data_model.weather.Current
 
 data class WeatherForecastResponse(
 

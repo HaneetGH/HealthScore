@@ -1,7 +1,6 @@
 package com.technorapper.onboarding.ui.onboarding.fragment
 
 
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,11 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.google.firebase.auth.*
-import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.auth.FirebaseAuth
 import com.technorapper.onboarding.R
 import com.technorapper.onboarding.base.BaseFragment
 import com.technorapper.onboarding.constant.Task
@@ -26,8 +23,6 @@ import com.technorapper.root.extension.userDataStore
 import com.technorapper.root.proto.ProtoUserRepo
 import com.technorapper.root.proto.ProtoUserRepoImpl
 import com.technorapper.root.ui.list.RootActivity
-import org.json.JSONObject
-import java.util.*
 
 
 class RegisterProfileFragment : BaseFragment() {

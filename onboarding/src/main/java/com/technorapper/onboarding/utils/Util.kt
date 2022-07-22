@@ -1,12 +1,8 @@
 package com.technorapper.onboarding.utils
 
 import android.content.Context
-import android.graphics.Color
 import android.net.ConnectivityManager
-import android.os.Build
 import android.util.Log
-import android.view.View
-import android.view.WindowManager
 import java.text.SimpleDateFormat
 import java.util.*
 

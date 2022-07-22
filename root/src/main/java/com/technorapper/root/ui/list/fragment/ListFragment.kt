@@ -6,32 +6,28 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DiffUtil
-
-import com.technorapper.root.R
 import com.technorapper.root.base.BaseFragment
 import com.technorapper.root.constant.Task
-import com.technorapper.root.data.data_model.LocationTable
-
-import com.technorapper.root.databinding.FragmentRootBinding
+import com.technorapper.root.data.data_model.lablist.Lab
+import com.technorapper.root.data.data_model.lablist.LabsListModel
 import com.technorapper.root.domain.DataState
-import com.technorapper.root.ui.MainActivity
+import com.technorapper.root.ui.compose.RootCompose
 import com.technorapper.root.ui.list.ListActivityViewModel
 import com.technorapper.root.ui.list.MainListStateEvent
-import com.technorapper.root.ui.list.adapter.ListAdapter
 import com.technorapper.root.ui.location.LocationFetchFromMapActivity
-import com.technorapper.root.utils.ListDiffCallback
+import com.technorapper.root.ui.theme.AppTheme
 
 class ListFragment : BaseFragment() {
 
 
     private val viewModel by viewModels<ListActivityViewModel>()
-    lateinit var binding: FragmentRootBinding
-    lateinit var listAdapter: ListAdapter;
-    private val listOfLocations: ArrayList<LocationTable> = ArrayList()
+    private val listOfLabs: ArrayList<Lab> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,46 +36,35 @@ class ListFragment : BaseFragment() {
     }
 
 
+    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_root,
-            container,
-            false
-        )
-        binding.counter = 60.00
 
-        binding.handler = ClickEvents()
         setEvents();
-        setAdapter();
-        return binding.root
-    }
-
-    private fun setAdapter() {
-        listAdapter = ListAdapter(listOfLocations, activity) { v, position ->
-            when (v.id) {
-                R.id.delete -> {
-                    viewModel.setStateEvent(MainListStateEvent.DeleteItem(listOfLocations[position]))
-                    listOfLocations.remove(listOfLocations[position])
-                    listAdapter.notifyItemRemoved(position)
-
-                }
-                R.id.llMain -> {
-                    val intent = Intent(activity, MainActivity::class.java)
-                    intent.putExtra("lat", listOfLocations[position].Lat)
-                    intent.putExtra("lng", listOfLocations[position].Lng)
-                    startActivity(intent)
+        return ComposeView(requireContext()).apply {
+            setContent {
+                val scaffoldState = rememberScaffoldState()
+                 AppTheme(
+                    displayProgressBar = false,
+                    scaffoldState = scaffoldState,
+                    darkTheme = false,
+                ) {
+                    Scaffold(
+                        scaffoldState = scaffoldState,
+                        snackbarHost = {
+                            scaffoldState.snackbarHostState
+                        }
+                    ) {
+                        RootCompose(viewModel)
+                    }
                 }
             }
-
-
         }
-        binding.adapter = listAdapter
     }
+
 
     private fun setEvents() {
 
@@ -87,13 +72,13 @@ class ListFragment : BaseFragment() {
 
 
     override fun attachViewModel() {
-        viewModel.setStateEvent(MainListStateEvent.FetchBookmark)
+        viewModel.setStateEvent(MainListStateEvent.FetchAllLabs)
         viewModel.uiState.observe(this, Observer { parse(it) })
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel?.setStateEvent(MainListStateEvent.FetchBookmark)
+        viewModel?.setStateEvent(MainListStateEvent.FetchAllLabs)
     }
 
     private fun parse(it: DataState?) {
@@ -105,13 +90,12 @@ class ListFragment : BaseFragment() {
 
                     if (it?.data != null) {
                         when (it.task) {
-                            Task.FETCH -> {
+                            Task.FETCH_ALL_LABS -> {
                                 try {
-                                    val value = it.data as List<LocationTable>
-                                    if (value.isNotEmpty())
-                                        setData(value)
-                                    else
-                                        binding.isListHere = false
+                                    val value = it.data as LabsListModel
+                                    if (value.result.data.labs.isNotEmpty())
+                                        viewModel.passListToUI(value.result.data.labs)
+
                                     Log.d("Api Response", value.toString())
                                 } catch (e: Exception) {
 
@@ -139,15 +123,6 @@ class ListFragment : BaseFragment() {
         }
 
 
-    }
-
-    fun setData(locationTable: List<LocationTable>) {
-        binding.isListHere = true
-        val diffCallback = ListDiffCallback(listOfLocations, locationTable)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        listOfLocations.clear()
-        listOfLocations.addAll(locationTable)
-        diffResult.dispatchUpdatesTo(listAdapter)
     }
 
 

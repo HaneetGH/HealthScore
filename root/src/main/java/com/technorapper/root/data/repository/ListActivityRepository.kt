@@ -4,67 +4,64 @@ package com.technorapper.root.data.repository
 import android.content.Context
 import android.util.Log
 import com.technorapper.root.constant.Task
-import com.technorapper.root.data.data_model.LocationTable
+import com.technorapper.root.data.RootApi
 import com.technorapper.root.data.room.database.dao.LocationDao
 import com.technorapper.root.domain.DataState
 import com.technorapper.root.proto.ProtoUserRepo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 
 class ListActivityRepository @Inject constructor(
     @ApplicationContext context: Context,
-    private val locationDao: LocationDao
+    private val locationDao: LocationDao,
+    private val myPreference: ProtoUserRepo,
+    private val rootApi: RootApi
 ) : BaseRepository() {
     private val appContext = context.applicationContext
 
-    suspend fun fetchBookmark(
-    ): Flow<DataState> {
+    suspend fun isUserProfileThere(): Flow<DataState> {
         return flow {
-            emit(DataState.Loading(Task.FETCH))
+            emit(DataState.Loading(Task.FETCH_ALL_LABS))
             // var response: VehicleCategoriesList = null
             try {
-                var response = locationDao.getAllLocations()
-                emit(DataState.Success(response, Task.FETCH))
+                var uid = ""
+                var tokenid = ""
+                val result = runBlocking {
+                    myPreference.getUserID().flatMapMerge { id ->
+                        uid = id
+                        myPreference.getTokenID()
+                    }.map { token ->
+                        tokenid = token
+                    }.map {
+                        rootApi.getAllLabs(
+                            tokenid, uid
+                        )
+                    }
+                }
+
+
+
+                result.collect {
+                    emit(DataState.Success(it, Task.FETCH_ALL_LABS))
+                }
+
+
             } catch (e: Exception) {
-                Log.e("fetch erroe", e.message.toString());
+
             }
+
+            //firstHalfDeffered.await() + secondHalfDeffered.await()
 
 
         }.flowOn(Dispatchers.IO).catch {
             emit(
                 DataState.ErrorThrowable(
                     it,
-                    Task.FETCH
-                )
-            )
-        } // Use the IO thread for this Flow // Use the IO thread for this Flow // Use the IO thread for this Flow
-    }
-
-    suspend fun deleteItem(
-        locationTable: LocationTable
-    ): Flow<DataState> {
-        return flow {
-            emit(DataState.Loading(Task.DELETE))
-            // var response: VehicleCategoriesList = null
-            try {
-                var response = locationDao.delete(locationTable)
-                emit(DataState.Success(response, Task.DELETE))
-            } catch (e: Exception) {
-                Log.e("fetch erroe", e.message.toString());
-            }
-
-
-        }.flowOn(Dispatchers.IO).catch {
-            emit(
-                DataState.ErrorThrowable(
-                    it,
-                    Task.DELETE
+                    Task.FETCH_ALL_LABS
                 )
             )
         } // Use the IO thread for this Flow // Use the IO thread for this Flow // Use the IO thread for this Flow

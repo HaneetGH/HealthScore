@@ -8,7 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -19,10 +19,11 @@ import com.technorapper.onboarding.R
 import com.technorapper.onboarding.base.BaseFragment
 import com.technorapper.onboarding.constant.Task
 import com.technorapper.onboarding.data.data_model.BasicResult
-import com.technorapper.onboarding.databinding.ActivityRegisterBinding
 import com.technorapper.onboarding.domain.DataState
 import com.technorapper.onboarding.ui.onboarding.MainListStateEvent
+import com.technorapper.onboarding.ui.onboarding.MainScreen
 import com.technorapper.onboarding.ui.onboarding.OnBoardingViewModel
+import com.technorapper.onboarding.ui.onboarding.compose.isOtpVisible
 import com.technorapper.root.extension.userDataStore
 import com.technorapper.root.proto.ProtoUserRepo
 import com.technorapper.root.proto.ProtoUserRepoImpl
@@ -35,7 +36,7 @@ class RegisterFragment : BaseFragment() {
     private var userRepo: ProtoUserRepo? = null
     private var mAuth: FirebaseAuth? = null;
     private val viewModel by viewModels<OnBoardingViewModel>()
-    lateinit var binding: ActivityRegisterBinding
+    //lateinit var binding: ActivityRegisterBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,18 +52,22 @@ class RegisterFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.activity_register,
-            container,
-            false
-        )
-        binding.counter = 60.00
+        /* binding = DataBindingUtil.inflate(
+             inflater,
+             R.layout.activity_register,
+             container,
+             false
+         )
+         binding.counter = 60.00
 
-        binding.handler = ClickEvents()
-        setEvents();
-        binding.isOTPGenerated = false
-        return binding.root
+         binding.handler = ClickEvents()
+         setEvents();
+         binding.isOTPGenerated = false
+         return binding.root*/
+
+        return ComposeView(requireContext()).apply {
+            setContent { MainScreen(onBoardingViewModel = viewModel) }
+        }
     }
 
 
@@ -75,7 +80,8 @@ class RegisterFragment : BaseFragment() {
         userRepo = ProtoUserRepoImpl(requireContext().userDataStore)
         viewModel.InjectDep(userRepo!!)
         viewModel.pushContext(requireActivity())
-
+        viewModel.uiStateEventFirebase.observe(this, Observer { sendVerificationCode(it) })
+        viewModel.uiStateEventFirebaseOTP.observe(this, Observer { verifyCode(it) })
         viewModel.uiState.observe(this, Observer { parse(it) })
     }
 
@@ -131,16 +137,7 @@ class RegisterFragment : BaseFragment() {
                                                         viewModel.saveTokenId(
                                                             token = token
                                                         )
-
                                                         viewModel.setStateEvent(MainListStateEvent.IsProfileAvail)
-                                                        /*mAuth!!.signInWithCustomToken("eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2lkZW50aXR5dG9vbGtpdC5nb29nbGVhcGlzLmNvbS9nb29nbGUuaWRlbnRpdHkuaWRlbnRpdHl0b29sa2l0LnYxLklkZW50aXR5VG9vbGtpdCIsImlhdCI6MTY0NzQ1OTkwOCwiZXhwIjoxNjQ3NDYzNTA4LCJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay1xaG1nM0BoZWFsdGhzY29yZS00ZmNkZi5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsInN1YiI6ImZpcmViYXNlLWFkbWluc2RrLXFobWczQGhlYWx0aHNjb3JlLTRmY2RmLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwidWlkIjoiaFEzdGR5RmZSV2RTUlVEM2pTVG1QbzZKcEh1MSJ9.KsZ3tY2A0c1YWQS7HJLZK2F3-D6yJXdu_4_0E1kUjjIdXlpBDacOq8CQYemZ0Q3TVP09BzS6l7lil94j7ag2z4NUBgb-abzXm51ziLdTWd2S61asO-OWVoMST5lUNqOqmQIvJKmjgKQedAFlhkoEglYah-4334_NhVcLOecmRaWG-tX5gr3bXI6x4cz9gnHTswxFWuwz7hmLMyPfTjthM-_ZwRI_i9RGC-By6L_YnSVLVvIi2iK8HFeFSfbNwA5KshPJtVjinLAet_vG9cIDT1RWs4ceO9tZVB6UtOZPzcu0sW1Tpm1hzyXvpSkoH5P-dKUgkwhj_9z6GpZmB2X2CQ")
-                                                            .addOnCompleteListener {
-
-                                                                Log.d("user", it.toString())
-                                                            }.addOnFailureListener {
-
-                                                                Log.d("user fail", it.toString())
-                                                            }*/
 
                                                     }
                                                 }
@@ -148,8 +145,8 @@ class RegisterFragment : BaseFragment() {
 
 
                                             /**/
-                                        } else
-                                            binding.isOTPGenerated = false
+                                        }
+
 
                                     }
 
@@ -182,9 +179,10 @@ class RegisterFragment : BaseFragment() {
 
     }
 
-    private fun sendVerificationCode(number: String) {
+    private fun sendVerificationCode(phone: String) {
         // this method is used for getting
         // OTP on user phone number.
+        var number = "+91$phone"
         val options = PhoneAuthOptions.newBuilder(mAuth!!)
             .setPhoneNumber(number) // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
@@ -211,16 +209,13 @@ class RegisterFragment : BaseFragment() {
             // This callback is invoked in an invalid request for verification is made,
             // for instance if the the phone number format is not valid.
             Log.w(ContentValues.TAG, "onVerificationFailed", e)
-
+            isOtpVisible.isOtpVisible = false
             if (e is FirebaseAuthInvalidCredentialsException) {
                 // Invalid request
             } else if (e is FirebaseTooManyRequestsException) {
                 // The SMS quota for the project has been exceeded
             }
-            if (binding.isOTPGenerated)
-                binding.errorMessageOtp.text = e.message
-            else
-                binding.errorMessage.text = e.message
+
             // Show a message and update the UI
         }
 
@@ -235,7 +230,7 @@ class RegisterFragment : BaseFragment() {
 
             // Save verification ID and resending token so we can use them later
             storedVerificationId = verificationId
-            binding.isOTPGenerated = true
+            isOtpVisible.isOtpVisible = true
             // resendToken = token
         }
     }

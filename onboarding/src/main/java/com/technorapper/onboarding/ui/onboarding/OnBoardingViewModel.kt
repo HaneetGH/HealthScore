@@ -7,18 +7,14 @@ import androidx.databinding.ObservableBoolean
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.technorapper.onboarding.R
 import com.technorapper.onboarding.data.repository.onBoardingRepository
 import com.technorapper.onboarding.data.usecases.FirebaseUseCases
 import com.technorapper.onboarding.domain.DataState
 import com.technorapper.root.proto.ProtoUserRepo
-import kotlinx.coroutines.Dispatchers
-
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
 
 
@@ -30,6 +26,13 @@ class OnBoardingViewModel : ViewModel() {
     var protoUserRepo: ProtoUserRepo? = null
 
     lateinit var useCases: FirebaseUseCases
+
+    private val _uiStateEventsFirebase: MutableLiveData<String> = MutableLiveData()
+    val uiStateEventFirebase: MutableLiveData<String> get() = _uiStateEventsFirebase
+
+    private val _uiStateEventsFirebaseOTP: MutableLiveData<String> = MutableLiveData()
+    val uiStateEventFirebaseOTP: MutableLiveData<String> get() = _uiStateEventsFirebaseOTP
+
     fun InjectDep(protoUserRepo: ProtoUserRepo) {
         this.protoUserRepo = protoUserRepo
     }
@@ -122,6 +125,14 @@ class OnBoardingViewModel : ViewModel() {
         datePickerDialog.show()
 
         return timeLiveData;
+    }
+
+    fun initFirebase(inputValue: String) {
+        uiStateEventFirebase.value = inputValue
+    }
+
+    fun initFirebaseForOTP(inputValue2: String) {
+        uiStateEventFirebaseOTP.value = inputValue2
     }
 }
 
